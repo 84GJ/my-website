@@ -1,17 +1,265 @@
-our-story/
-│
-├── index.html
-├── style.css
-├── script.js
-│
-├── videos/
-│   ├── day-181.mp4
-│   ├── day-182.mp4
-│   └── ...
-│
-├── photos/
-│   ├── photo1.jpg
-│   └── ...
-│
-└── music/
-    └── song.mp3
+foryou/
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Our Story</title>
+  <style>
+    /* Reset & Base Styles */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: #0f0f0f;
+      color: #ffffff;
+      padding-bottom: 40px;
+    }
+
+    .header {
+      text-align: center;
+      padding: 40px 20px 20px 20px;
+    }
+
+    .header h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+
+    /* Lock Screen Overlay */
+    .lock-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(15, 15, 15, 0.95);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .lock-card {
+      background: #1e1e1e;
+      padding: 30px;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+      max-width: 360px;
+      width: 90%;
+    }
+
+    .lock-card h2 {
+      margin-bottom: 10px;
+      font-size: 1.5rem;
+    }
+
+    .lock-card p {
+      color: #aaa;
+      margin-bottom: 20px;
+      font-size: 0.9rem;
+    }
+
+    .lock-card input[type="password"] {
+      width: 100%;
+      padding: 12px;
+      border-radius: 6px;
+      border: 1px solid #333;
+      background: #0f0f0f;
+      color: #fff;
+      font-size: 1rem;
+      margin-bottom: 12px;
+      outline: none;
+    }
+
+    .lock-card button {
+      width: 100%;
+      padding: 12px;
+      border-radius: 6px;
+      border: none;
+      background: #2563eb;
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .lock-card button:hover {
+      background: #1d4ed8;
+    }
+
+    .error-msg {
+      color: #ef4444;
+      font-size: 0.85rem;
+      margin-top: 10px;
+      display: none;
+    }
+
+    /* Responsive Grid System */
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    /* Card Styling */
+    .video-card {
+      background: #1e1e1e;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .video-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+    }
+
+    /* 16:9 Aspect Ratio Responsive Wrapper */
+    .video-container {
+      position: relative;
+      padding-bottom: 56.25%; /* 16:9 aspect ratio */
+      height: 0;
+      background-color: #000;
+    }
+
+    .video-container iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    .video-title {
+      padding: 14px 16px;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #e1e1e1;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Password Overlay Screen -->
+  <div id="lockScreen" class="lock-screen">
+    <div class="lock-card">
+      <h2>Restricted Access</h2>
+      <p>Enter the passcode to view our story.</p>
+      <input type="password" id="passcode" placeholder="Enter Passcode" autocomplete="off" />
+      <button id="submitBtn">Unlock</button>
+      <div id="errorMsg" class="error-msg">Incorrect passcode. Try again.</div>
+    </div>
+  </div>
+
+  <header class="header">
+    <h1>Our Story</h1>
+  </header>
+
+  <main>
+    <div id="video-grid" class="video-grid"></div>
+  </main>
+
+  <script>
+    // Set your secret passcode here
+    const SECRET_PASSCODE = "10062025";
+
+    const lockScreen = document.getElementById("lockScreen");
+    const passcodeInput = document.getElementById("passcode");
+    const submitBtn = document.getElementById("submitBtn");
+    const errorMsg = document.getElementById("errorMsg");
+
+    function checkPasscode() {
+      if (passcodeInput.value === SECRET_PASSCODE) {
+        lockScreen.style.display = "none";
+        sessionStorage.setItem("siteUnlocked", "true");
+      } else {
+        errorMsg.style.display = "block";
+        passcodeInput.value = "";
+      }
+    }
+
+    // Auto-unlock if previously unlocked in current session
+    if (sessionStorage.getItem("siteUnlocked") === "true") {
+      lockScreen.style.display = "none";
+    }
+
+    submitBtn.addEventListener("click", checkPasscode);
+    passcodeInput.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") checkPasscode();
+    });
+
+    // Array containing video entries
+    const videos = [
+      { day: "Day 181", id: "f7xe0PpFEKM" },
+      { day: "Day 182", id: "MGxLNvTZoFM" },
+      { day: "Day 183", id: "3n_zJBvTAk8" },
+      { day: "Day 184", id: "cJF32kcIJ6M" },
+      { day: "Day 187", id: "s1XXoR2O2QE" },
+      { day: "Day 188", id: "kPoGdVC4CfE" },
+      { day: "Day 189", id: "iij0JrQqdbU" },
+      { day: "Day 190", id: "fTXRltyizSk" },
+      { day: "Day 191", id: "rkAKV39IFU0" },
+      { day: "Day 192", id: "L_M2UOYEoi4" },
+      { day: "Day 196", id: "ZX85rkbXxa4" },
+      { day: "Day 197", id: "KQLgqQCQpQY" },
+      { day: "Day 198", id: "YTfs3f3_PSY" },
+      { day: "Day 199", id: "WhZK2Z54GrQ" },
+      { day: "Day 200", id: "es_r26_cmfc" },
+      { day: "Day 201", id: "6eqTHEO4QH8" },
+      { day: "Day 202", id: "NiT31XKxvgk" },
+      { day: "Day 203", id: "aHSt_3x3JYQ" },
+      { day: "Day 204", id: "g88gBXeDcPQ" },
+      { day: "Day 205", id: "eqVqBe32GW0" },
+      { day: "Day 206", id: "wiPhRD1QU1k" },
+      { day: "Day 207", id: "MyUrPWxkdGA" },
+      { day: "Day 208", id: "o0cTJQ-F2Dk" },
+      { day: "Day 209", id: "Q8MbHTFSQhM" },
+      { day: "Day 210", id: "BFcThnYXSiQ" },
+      { day: "Day 211", id: "DyIyG7_xzbQ" },
+      { day: "Day 226", id: "e1uQz5L_WNo" },
+      { day: "Day 227", id: "cUuLuRYMDtQ" }
+    ];
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const container = document.getElementById("video-grid");
+
+      if (!container) return;
+
+      videos.forEach((video) => {
+        // Skip placeholder IDs if needed
+        if (video.id.startsWith("YOUTUBE_ID_")) return;
+
+        const card = document.createElement("div");
+        card.className = "video-card";
+
+        card.innerHTML = `
+          <div class="video-container">
+            <iframe 
+              src="https://www.youtube.com/embed/${video.id}?rel=0" 
+              title="${video.day}" 
+              loading="lazy"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+              allowfullscreen>
+            </iframe>
+          </div>
+          <p class="video-title">${video.day}</p>
+        `;
+
+        container.appendChild(card);
+      });
+    });
+  </script>
+</body>
+</html>
