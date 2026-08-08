@@ -1,0 +1,17 @@
+our-story/
+│
+├── index.html
+├── style.css
+├── script.js
+│
+├── videos/
+│   ├── day-181.mp4
+│   ├── day-182.mp4
+│   └── ...
+│
+├── photos/
+│   ├── photo1.jpg
+│   └── ...
+│
+└── music/
+    └── song.mp3
