@@ -553,7 +553,7 @@
       <input type="text" id="passcode" placeholder="MM-DD-YYYY" autocomplete="off" maxlength="10" />
       <div>
         <button id="toggleHintBtn" class="hint-btn">Need a hint?</button>
-        <div id="hintText" class="hint-text">Format: MM-DD-YYYY (e.g. 10-06-2025)</div>
+        <div id="hintText" class="hint-text">Format:Our Day One</div>
       </div>
       <button id="submitBtn" class="unlock-btn">Unlock Chapter</button>
       <div id="errorMsg" class="error-msg">Incorrect passcode. Try again.</div>
@@ -563,7 +563,7 @@
   <!-- Intro Video Screen (Plays directly after entering passcode) -->
   <div id="introScreen" class="intro-screen">
     <div class="intro-video-wrapper">
-      <iframe id="introIframe" src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+      <iframe id="introIframe" src="" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
     </div>
     <button id="skipIntroBtn" class="skip-intro-btn">Skip to Scrapbook &rarr;</button>
   </div>
@@ -598,7 +598,7 @@
     <div class="modal-content">
       <button class="close-btn" id="closeModal">&times;</button>
       <div class="modal-player-container">
-        <iframe id="modalIframe" src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        <iframe id="modalIframe" src="" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
       </div>
       <div class="modal-controls">
         <button class="nav-btn" id="prevBtn">&larr; Previous Day</button>
@@ -610,7 +610,6 @@
 
   <script>
     // --- Password Gate & Intro Setup ---
-    // You can replace INTRO_VIDEO_ID with whatever YouTube ID you want to play right after unlocking!
     const INTRO_VIDEO_ID = "f7xe0PpFEKM"; 
 
     const lockScreen = document.getElementById("lockScreen");
@@ -645,7 +644,6 @@
 
     function checkPasscode() {
       const entered = passcodeInput.value.trim();
-      // Accepts both 10-06-2025 and 10062025
       if (entered === "10-06-2025" || entered === "10062025") {
         lockScreen.style.display = "none";
         sessionStorage.setItem("siteUnlocked", "true");
@@ -657,7 +655,8 @@
 
     function playIntroVideo() {
       introScreen.style.display = "flex";
-      introIframe.src = `https://www.youtube.com/embed/${INTRO_VIDEO_ID}?autoplay=1&rel=0`;
+      // Using youtube-nocookie.com domain to prevent mobile sign-in prompt
+      introIframe.src = `https://www.youtube-nocookie.com/embed/${INTRO_VIDEO_ID}?autoplay=1&rel=0&playsinline=1`;
     }
 
     function closeIntroVideo() {
@@ -725,7 +724,6 @@
       gridContainer.innerHTML = "";
       
       videos.forEach((video, index) => {
-        // Exclude Day 365 from standard grid so it sits in its ending section
         if (video.day === "Day 365") return;
 
         if (filterText && !video.day.toLowerCase().includes(filterText.toLowerCase())) {
@@ -742,7 +740,6 @@
       const card = document.createElement("div");
       card.className = "video-card";
       
-      // Auto YouTube Thumbnail URL
       const thumbnailUrl = `https://img.youtube.com/vi/${video.id}/hqdefault.jpg`;
 
       card.innerHTML = `
@@ -777,7 +774,8 @@
 
     function updateModalContent() {
       const video = videos[currentVideoIndex];
-      modalIframe.src = `https://www.youtube.com/embed/${video.id}?autoplay=1&rel=0`;
+      // Using youtube-nocookie.com domain + playsinline=1 for smooth mobile playback
+      modalIframe.src = `https://www.youtube-nocookie.com/embed/${video.id}?autoplay=1&rel=0&playsinline=1`;
       modalTitle.innerText = video.day;
     }
 
