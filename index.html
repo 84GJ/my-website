@@ -1,5 +1,4 @@
-<html lang="en">
-<head>
+<html lang="en"><head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Little Pieces of Me</title>
@@ -487,11 +486,28 @@
       margin-top: 20px;
     }
 
+    .modal-title-wrapper {
+      text-align: center;
+    }
+
     .modal-title {
       font-family: 'Cinzel', serif;
       font-size: 1.3rem;
       color: var(--pink-neon);
       text-shadow: 0 0 10px var(--pink-glow);
+    }
+
+    .yt-fallback-link {
+      display: inline-block;
+      margin-top: 6px;
+      font-size: 0.8rem;
+      color: var(--purple-neon);
+      text-decoration: underline;
+      transition: color 0.2s;
+    }
+
+    .yt-fallback-link:hover {
+      color: var(--pink-neon);
     }
 
     .nav-btn {
@@ -537,9 +553,7 @@
         gap: 15px;
       }
     }
-  </style>
-</head>
-<body>
+  </style></head><body>
 
   <!-- Ambient Glow Background -->
   <div class="glow-orb orb-1"></div>
@@ -553,7 +567,7 @@
       <input type="text" id="passcode" placeholder="MM-DD-YYYY" autocomplete="off" maxlength="10" />
       <div>
         <button id="toggleHintBtn" class="hint-btn">Need a hint?</button>
-        <div id="hintText" class="hint-text">Format:Our Day One</div>
+        <div id="hintText" class="hint-text">Hint: Our Day One</div>
       </div>
       <button id="submitBtn" class="unlock-btn">Unlock Chapter</button>
       <div id="errorMsg" class="error-msg">Incorrect passcode. Try again.</div>
@@ -602,7 +616,12 @@
       </div>
       <div class="modal-controls">
         <button class="nav-btn" id="prevBtn">&larr; Previous Day</button>
-        <div class="modal-title" id="modalTitle">Day 181</div>
+        <div class="modal-title-wrapper">
+          <div class="modal-title" id="modalTitle">Day 181</div>
+          <a id="ytFallbackBtn" href="#" target="_blank" rel="noopener noreferrer" class="yt-fallback-link">
+            Having trouble playing? Watch directly on YouTube ↗
+          </a>
+        </div>
         <button class="nav-btn" id="nextBtn">Next Day &rarr;</button>
       </div>
     </div>
@@ -621,6 +640,16 @@
     const introScreen = document.getElementById("introScreen");
     const introIframe = document.getElementById("introIframe");
     const skipIntroBtn = document.getElementById("skipIntroBtn");
+
+    // Dynamic origin parameter to prevent YouTube embed restrictions
+    const currentOrigin = encodeURIComponent(window.location.origin || "https://localhost");
+
+    // Helper function to build embed URLs that bypass playback blocks
+    function getEmbedUrl(videoId, autoPlay = true) {
+      const playParam = autoPlay ? "1" : "0";
+      // youtube.com embed with enablejsapi, origin, and playsinline avoids sign-in blocks
+      return `https://www.youtube.com/embed/${videoId}?autoplay=${playParam}&rel=0&playsinline=1&enablejsapi=1&origin=${currentOrigin}`;
+    }
 
     // Automatic formatting for XX-XX-XXXX input
     passcodeInput.addEventListener("input", (e) => {
@@ -655,8 +684,7 @@
 
     function playIntroVideo() {
       introScreen.style.display = "flex";
-      // Using youtube-nocookie.com domain to prevent mobile sign-in prompt
-      introIframe.src = `https://www.youtube-nocookie.com/embed/${INTRO_VIDEO_ID}?autoplay=1&rel=0&playsinline=1`;
+      introIframe.src = getEmbedUrl(INTRO_VIDEO_ID, true);
     }
 
     function closeIntroVideo() {
@@ -714,6 +742,7 @@
     const modal = document.getElementById("videoModal");
     const modalIframe = document.getElementById("modalIframe");
     const modalTitle = document.getElementById("modalTitle");
+    const ytFallbackBtn = document.getElementById("ytFallbackBtn");
     const closeModal = document.getElementById("closeModal");
     const prevBtn = document.getElementById("prevBtn");
     const nextBtn = document.getElementById("nextBtn");
@@ -774,9 +803,9 @@
 
     function updateModalContent() {
       const video = videos[currentVideoIndex];
-      // Using youtube-nocookie.com domain + playsinline=1 for smooth mobile playback
-      modalIframe.src = `https://www.youtube-nocookie.com/embed/${video.id}?autoplay=1&rel=0&playsinline=1`;
+      modalIframe.src = getEmbedUrl(video.id, true);
       modalTitle.innerText = video.day;
+      ytFallbackBtn.href = `https://www.youtube.com/watch?v=${video.id}`;
     }
 
     function closeModalPlayer() {
@@ -810,5 +839,5 @@
       setupDay365();
     });
   </script>
-</body>
-</html>
+  </body>
+  </html>
