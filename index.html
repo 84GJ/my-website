@@ -4,7 +4,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Little Pieces of Me</title>
   
-  <!-- Fonts -->
+  <!-- Old English Font import from Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Cinzel:wght@400;600;800&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
@@ -39,7 +39,7 @@
       overflow-x: hidden;
     }
 
-    /* Film Grain Noise Overlay */
+    /* Subtle Film Grain Noise Overlay */
     body::before {
       content: "";
       position: fixed;
@@ -72,7 +72,7 @@
       z-index: 2;
     }
 
-    /* --- Password Lock Screen --- */
+    /* --- Password Overlay Screen --- */
     .lock-screen {
       position: fixed;
       top: 0;
@@ -112,7 +112,8 @@
       margin-bottom: 24px;
     }
 
-    .lock-card input[type="text"] {
+    .lock-card input[type="text"],
+    .lock-card input[type="password"] {
       width: 100%;
       padding: 14px;
       border-radius: 8px;
@@ -132,6 +133,7 @@
       box-shadow: 0 0 12px var(--pink-glow);
     }
 
+    /* Password Hint Styling */
     .hint-btn {
       background: none;
       border: none;
@@ -250,7 +252,7 @@
       margin-bottom: 8px;
     }
 
-    /* --- Search & Controls --- */
+    /* --- Search & Controls Section --- */
     .search-container {
       max-width: 500px;
       margin: 30px auto 40px auto;
@@ -281,7 +283,7 @@
       box-shadow: 0 0 15px var(--purple-glow);
     }
 
-    /* --- Video Grid --- */
+    /* --- Responsive Video Grid --- */
     .video-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -291,6 +293,7 @@
       padding: 0 24px;
     }
 
+    /* Gothic Scrapbook Video Card */
     .video-card {
       background: var(--card-bg);
       border-radius: 14px;
@@ -308,6 +311,7 @@
       box-shadow: 0 12px 30px var(--pink-glow);
     }
 
+    /* Scrapbook Tape Detail */
     .video-card::before {
       content: "";
       position: absolute;
@@ -323,9 +327,10 @@
       pointer-events: none;
     }
 
+    /* 16:9 Aspect Ratio Container */
     .video-container {
       position: relative;
-      padding-bottom: 56.25%;
+      padding-bottom: 56.25%; /* 16:9 ratio */
       height: 0;
       background-color: #000;
       overflow: hidden;
@@ -403,7 +408,7 @@
       font-size: 0.85rem;
     }
 
-    /* --- Day 365 Section --- */
+    /* --- Day 365 Ending Section --- */
     .ending-section {
       max-width: 1000px;
       margin: 80px auto 40px auto;
@@ -432,7 +437,7 @@
       margin: 0 auto 30px auto;
     }
 
-    /* --- Modal Player & Controls --- */
+    /* --- Full-Screen Video Player Modal --- */
     .modal-overlay {
       position: fixed;
       top: 0;
@@ -457,7 +462,7 @@
 
     .modal-player-container {
       position: relative;
-      padding-bottom: 56.25%;
+      padding-bottom: 56.25%; /* 16:9 */
       height: 0;
       background: #000;
       border-radius: 12px;
@@ -482,34 +487,11 @@
       margin-top: 20px;
     }
 
-    .modal-title-wrapper {
-      text-align: center;
-    }
-
     .modal-title {
       font-family: 'Cinzel', serif;
       font-size: 1.3rem;
       color: var(--pink-neon);
       text-shadow: 0 0 10px var(--pink-glow);
-    }
-
-    .yt-fallback-link {
-      display: inline-block;
-      margin-top: 8px;
-      padding: 6px 16px;
-      border-radius: 20px;
-      border: 1px solid var(--border-goth);
-      background: rgba(255, 0, 127, 0.1);
-      font-size: 0.8rem;
-      color: var(--pink-neon);
-      text-decoration: none;
-      transition: all 0.2s;
-    }
-
-    .yt-fallback-link:hover {
-      background: var(--pink-neon);
-      color: #fff;
-      box-shadow: 0 0 12px var(--pink-glow);
     }
 
     .nav-btn {
@@ -546,6 +528,7 @@
       color: var(--pink-neon);
     }
 
+    /* --- Responsive Adjustments --- */
     @media (max-width: 768px) {
       .header h1 { font-size: 3rem; }
       .ending-section h2 { font-size: 2.5rem; }
@@ -558,7 +541,7 @@
 </head>
 <body>
 
-  <!-- Ambient Background -->
+  <!-- Ambient Glow Background -->
   <div class="glow-orb orb-1"></div>
   <div class="glow-orb orb-2"></div>
 
@@ -570,14 +553,14 @@
       <input type="text" id="passcode" placeholder="MM-DD-YYYY" autocomplete="off" maxlength="10" />
       <div>
         <button id="toggleHintBtn" class="hint-btn">Need a hint?</button>
-        <div id="hintText" class="hint-text">Hint: Our Day One</div>
+        <div id="hintText" class="hint-text">Format: MM-DD-YYYY (e.g. 10-06-2025)</div>
       </div>
       <button id="submitBtn" class="unlock-btn">Unlock Chapter</button>
       <div id="errorMsg" class="error-msg">Incorrect passcode. Try again.</div>
     </div>
   </div>
 
-  <!-- Unlock Intro Video Screen -->
+  <!-- Intro Video Screen (Plays directly after entering passcode) -->
   <div id="introScreen" class="intro-screen">
     <div class="intro-video-wrapper">
       <iframe id="introIframe" src="" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
@@ -602,7 +585,7 @@
       <div id="video-grid" class="video-grid"></div>
     </main>
 
-    <!-- Day 365 Ending Section -->
+    <!-- Dedicated Day 365 Ending Section -->
     <section class="ending-section" id="day365-section">
       <h2>Day 365: The Final Chapter</h2>
       <p>One full year preserved in time. Every video, memory, and moment collected in this archive.</p>
@@ -619,21 +602,79 @@
       </div>
       <div class="modal-controls">
         <button class="nav-btn" id="prevBtn">&larr; Previous Day</button>
-        <div class="modal-title-wrapper">
-          <div class="modal-title" id="modalTitle">Day 181</div>
-          <a id="ytFallbackBtn" href="#" target="_blank" rel="noopener noreferrer" class="yt-fallback-link">
-            Open & Play on YouTube ↗
-          </a>
-        </div>
+        <div class="modal-title" id="modalTitle">Day 181</div>
         <button class="nav-btn" id="nextBtn">Next Day &rarr;</button>
       </div>
     </div>
   </div>
 
   <script>
-    // --- Master Video Data ---
-    const INTRO_VIDEO_ID = "f7xe0PpFEKM";
+    // --- Password Gate & Intro Setup ---
+    const INTRO_VIDEO_ID = "f7xe0PpFEKM"; 
 
+    const lockScreen = document.getElementById("lockScreen");
+    const passcodeInput = document.getElementById("passcode");
+    const submitBtn = document.getElementById("submitBtn");
+    const errorMsg = document.getElementById("errorMsg");
+    const toggleHintBtn = document.getElementById("toggleHintBtn");
+    const hintText = document.getElementById("hintText");
+    const introScreen = document.getElementById("introScreen");
+    const introIframe = document.getElementById("introIframe");
+    const skipIntroBtn = document.getElementById("skipIntroBtn");
+
+    // Automatic formatting for XX-XX-XXXX input
+    passcodeInput.addEventListener("input", (e) => {
+      let val = e.target.value.replace(/\D/g, ""); // strip non-digits
+      if (val.length > 2 && val.length <= 4) {
+        val = val.slice(0, 2) + "-" + val.slice(2);
+      } else if (val.length > 4) {
+        val = val.slice(0, 2) + "-" + val.slice(2, 4) + "-" + val.slice(4, 8);
+      }
+      e.target.value = val;
+    });
+
+    // Toggle hint display
+    toggleHintBtn.addEventListener("click", () => {
+      if (hintText.style.display === "block") {
+        hintText.style.display = "none";
+      } else {
+        hintText.style.display = "block";
+      }
+    });
+
+    function checkPasscode() {
+      const entered = passcodeInput.value.trim();
+      if (entered === "10-06-2025" || entered === "10062025") {
+        lockScreen.style.display = "none";
+        sessionStorage.setItem("siteUnlocked", "true");
+        playIntroVideo();
+      } else {
+        errorMsg.style.display = "block";
+      }
+    }
+
+    function playIntroVideo() {
+      introScreen.style.display = "flex";
+      // Using youtube-nocookie.com domain to prevent mobile sign-in prompt
+      introIframe.src = `https://www.youtube-nocookie.com/embed/${INTRO_VIDEO_ID}?autoplay=1&rel=0&playsinline=1`;
+    }
+
+    function closeIntroVideo() {
+      introScreen.style.display = "none";
+      introIframe.src = "";
+    }
+
+    if (sessionStorage.getItem("siteUnlocked") === "true") {
+      lockScreen.style.display = "none";
+    }
+
+    submitBtn.addEventListener("click", checkPasscode);
+    passcodeInput.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") checkPasscode();
+    });
+    skipIntroBtn.addEventListener("click", closeIntroVideo);
+
+    // --- Master Video Data Array (Days 181 to 365) ---
     const videos = [
       { day: "Day 181", id: "f7xe0PpFEKM" },
       { day: "Day 182", id: "MGxLNvTZoFM" },
@@ -663,99 +704,42 @@
       { day: "Day 211", id: "DyIyG7_xzbQ" },
       { day: "Day 226", id: "e1uQz5L_WNo" },
       { day: "Day 227", id: "cUuLuRYMDtQ" },
-      { day: "Day 365", id: "f7xe0PpFEKM" }
+      // Day 365 Grand Finale entry
+      { day: "Day 365", id: "f7xe0PpFEKM" } 
     ];
 
-    // --- DOM References ---
-    const lockScreen = document.getElementById("lockScreen");
-    const passcodeInput = document.getElementById("passcode");
-    const submitBtn = document.getElementById("submitBtn");
-    const errorMsg = document.getElementById("errorMsg");
-    const toggleHintBtn = document.getElementById("toggleHintBtn");
-    const hintText = document.getElementById("hintText");
-    const introScreen = document.getElementById("introScreen");
-    const introIframe = document.getElementById("introIframe");
-    const skipIntroBtn = document.getElementById("skipIntroBtn");
-
+    let currentVideoIndex = 0;
     const gridContainer = document.getElementById("video-grid");
     const searchInput = document.getElementById("searchInput");
     const modal = document.getElementById("videoModal");
     const modalIframe = document.getElementById("modalIframe");
     const modalTitle = document.getElementById("modalTitle");
-    const ytFallbackBtn = document.getElementById("ytFallbackBtn");
     const closeModal = document.getElementById("closeModal");
     const prevBtn = document.getElementById("prevBtn");
     const nextBtn = document.getElementById("nextBtn");
     const day365Slot = document.getElementById("day365-card-slot");
 
-    let currentVideoIndex = 0;
-
-    // Direct, privacy-enhanced YouTube embed generator that avoids domain security triggers
-    function getCleanEmbedUrl(videoId) {
-      return `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0&playsinline=1&controls=1`;
-    }
-
-    // Input Passcode Formatting (XX-XX-XXXX)
-    passcodeInput.addEventListener("input", (e) => {
-      let val = e.target.value.replace(/\D/g, "");
-      if (val.length > 2 && val.length <= 4) {
-        val = val.slice(0, 2) + "-" + val.slice(2);
-      } else if (val.length > 4) {
-        val = val.slice(0, 2) + "-" + val.slice(2, 4) + "-" + val.slice(4, 8);
-      }
-      e.target.value = val;
-    });
-
-    toggleHintBtn.addEventListener("click", () => {
-      hintText.style.display = hintText.style.display === "block" ? "none" : "block";
-    });
-
-    function checkPasscode() {
-      const entered = passcodeInput.value.trim();
-      if (entered === "10-06-2025" || entered === "10062025") {
-        lockScreen.style.display = "none";
-        sessionStorage.setItem("siteUnlocked", "true");
-        playIntroVideo();
-      } else {
-        errorMsg.style.display = "block";
-      }
-    }
-
-    function playIntroVideo() {
-      introScreen.style.display = "flex";
-      introIframe.src = getCleanEmbedUrl(INTRO_VIDEO_ID);
-    }
-
-    function closeIntroVideo() {
-      introScreen.style.display = "none";
-      introIframe.src = "";
-    }
-
-    if (sessionStorage.getItem("siteUnlocked") === "true") {
-      lockScreen.style.display = "none";
-    }
-
-    submitBtn.addEventListener("click", checkPasscode);
-    passcodeInput.addEventListener("keypress", (e) => {
-      if (e.key === "Enter") checkPasscode();
-    });
-    skipIntroBtn.addEventListener("click", closeIntroVideo);
-
-    // Grid Renderer
+    // --- Render Grid Cards ---
     function renderCards(filterText = "") {
       gridContainer.innerHTML = "";
+      
       videos.forEach((video, index) => {
         if (video.day === "Day 365") return;
-        if (filterText && !video.day.toLowerCase().includes(filterText.toLowerCase())) return;
+
+        if (filterText && !video.day.toLowerCase().includes(filterText.toLowerCase())) {
+          return;
+        }
 
         const card = createCardElement(video, index);
         gridContainer.appendChild(card);
       });
     }
 
+    // --- Card DOM Creation ---
     function createCardElement(video, index) {
       const card = document.createElement("div");
       card.className = "video-card";
+      
       const thumbnailUrl = `https://img.youtube.com/vi/${video.id}/hqdefault.jpg`;
 
       card.innerHTML = `
@@ -772,6 +756,7 @@
       return card;
     }
 
+    // --- Special Render for Day 365 ---
     function setupDay365() {
       const day365Index = videos.findIndex(v => v.day === "Day 365");
       if (day365Index !== -1) {
@@ -780,7 +765,7 @@
       }
     }
 
-    // Modal Control
+    // --- Modal Navigation & Player Functions ---
     function openModal(index) {
       currentVideoIndex = index;
       updateModalContent();
@@ -789,9 +774,9 @@
 
     function updateModalContent() {
       const video = videos[currentVideoIndex];
-      modalIframe.src = getCleanEmbedUrl(video.id);
+      // Using youtube-nocookie.com domain + playsinline=1 for smooth mobile playback
+      modalIframe.src = `https://www.youtube-nocookie.com/embed/${video.id}?autoplay=1&rel=0&playsinline=1`;
       modalTitle.innerText = video.day;
-      ytFallbackBtn.href = `https://www.youtube.com/watch?v=${video.id}`;
     }
 
     function closeModalPlayer() {
@@ -814,10 +799,12 @@
       if (e.target === modal) closeModalPlayer();
     });
 
+    // Search event listener
     searchInput.addEventListener("input", (e) => {
       renderCards(e.target.value);
     });
 
+    // Initialize Page
     document.addEventListener("DOMContentLoaded", () => {
       renderCards();
       setupDay365();
