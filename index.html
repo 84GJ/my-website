@@ -112,6 +112,7 @@
       margin-bottom: 24px;
     }
 
+    .lock-card input[type="text"],
     .lock-card input[type="password"] {
       width: 100%;
       padding: 14px;
@@ -121,17 +122,38 @@
       color: #fff;
       font-size: 1.1rem;
       text-align: center;
-      margin-bottom: 16px;
+      margin-bottom: 12px;
       outline: none;
+      letter-spacing: 2px;
       transition: all 0.3s ease;
     }
 
-    .lock-card input[type="password"]:focus {
+    .lock-card input:focus {
       border-color: var(--pink-neon);
       box-shadow: 0 0 12px var(--pink-glow);
     }
 
-    .lock-card button {
+    /* Password Hint Styling */
+    .hint-btn {
+      background: none;
+      border: none;
+      color: var(--purple-neon);
+      font-size: 0.8rem;
+      text-decoration: underline;
+      cursor: pointer;
+      margin-bottom: 16px;
+      display: inline-block;
+    }
+
+    .hint-text {
+      display: none;
+      font-size: 0.85rem;
+      color: var(--pink-neon);
+      margin-bottom: 16px;
+      font-style: italic;
+    }
+
+    .lock-card button.unlock-btn {
       width: 100%;
       padding: 14px;
       border-radius: 8px;
@@ -147,7 +169,7 @@
       transition: transform 0.2s, box-shadow 0.2s;
     }
 
-    .lock-card button:hover {
+    .lock-card button.unlock-btn:hover {
       transform: translateY(-2px);
       box-shadow: 0 6px 20px var(--pink-glow);
     }
@@ -157,6 +179,62 @@
       font-size: 0.85rem;
       margin-top: 12px;
       display: none;
+    }
+
+    /* --- Unlock Intro Video Screen --- */
+    .intro-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: #000;
+      z-index: 10001;
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .intro-video-wrapper {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      max-width: 1200px;
+      max-height: 80vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .intro-video-wrapper iframe {
+      width: 90%;
+      height: 90%;
+      border: none;
+      border-radius: 12px;
+      box-shadow: 0 0 50px var(--pink-glow);
+    }
+
+    .skip-intro-btn {
+      position: absolute;
+      bottom: 30px;
+      padding: 12px 28px;
+      border-radius: 30px;
+      border: 1px solid var(--border-goth);
+      background: rgba(18, 16, 24, 0.8);
+      color: #fff;
+      font-family: 'Cinzel', serif;
+      font-size: 0.9rem;
+      letter-spacing: 1px;
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+      transition: all 0.3s;
+      z-index: 10002;
+    }
+
+    .skip-intro-btn:hover {
+      background: var(--pink-neon);
+      box-shadow: 0 0 20px var(--pink-glow);
     }
 
     /* --- Header & Typography --- */
@@ -172,14 +250,6 @@
       text-shadow: 0 0 20px var(--pink-glow), 0 0 40px var(--purple-glow);
       letter-spacing: 1px;
       margin-bottom: 8px;
-    }
-
-    .header p {
-      font-family: 'Cinzel', serif;
-      color: var(--purple-neon);
-      letter-spacing: 2px;
-      font-size: 0.95rem;
-      text-transform: uppercase;
     }
 
     /* --- Search & Controls Section --- */
@@ -480,10 +550,22 @@
     <div class="lock-card">
       <h2>Restricted Access</h2>
       <p>Enter the passcode to enter.</p>
-      <input type="password" id="passcode" placeholder="Enter Passcode" autocomplete="off" />
-      <button id="submitBtn">Unlock Chapter</button>
+      <input type="text" id="passcode" placeholder="MM-DD-YYYY" autocomplete="off" maxlength="10" />
+      <div>
+        <button id="toggleHintBtn" class="hint-btn">Need a hint?</button>
+        <div id="hintText" class="hint-text">Format: MM-DD-YYYY (e.g. 10-06-2025)</div>
+      </div>
+      <button id="submitBtn" class="unlock-btn">Unlock Chapter</button>
       <div id="errorMsg" class="error-msg">Incorrect passcode. Try again.</div>
     </div>
+  </div>
+
+  <!-- Intro Video Screen (Plays directly after entering passcode) -->
+  <div id="introScreen" class="intro-screen">
+    <div class="intro-video-wrapper">
+      <iframe id="introIframe" src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    </div>
+    <button id="skipIntroBtn" class="skip-intro-btn">Skip to Scrapbook &rarr;</button>
   </div>
 
   <div class="content-wrapper">
@@ -527,21 +609,60 @@
   </div>
 
   <script>
-    // --- Password Gate Security ---
-    const SECRET_PASSCODE = "10062025";
+    // --- Password Gate & Intro Setup ---
+    // You can replace INTRO_VIDEO_ID with whatever YouTube ID you want to play right after unlocking!
+    const INTRO_VIDEO_ID = "f7xe0PpFEKM"; 
+
     const lockScreen = document.getElementById("lockScreen");
     const passcodeInput = document.getElementById("passcode");
     const submitBtn = document.getElementById("submitBtn");
     const errorMsg = document.getElementById("errorMsg");
+    const toggleHintBtn = document.getElementById("toggleHintBtn");
+    const hintText = document.getElementById("hintText");
+    const introScreen = document.getElementById("introScreen");
+    const introIframe = document.getElementById("introIframe");
+    const skipIntroBtn = document.getElementById("skipIntroBtn");
+
+    // Automatic formatting for XX-XX-XXXX input
+    passcodeInput.addEventListener("input", (e) => {
+      let val = e.target.value.replace(/\D/g, ""); // strip non-digits
+      if (val.length > 2 && val.length <= 4) {
+        val = val.slice(0, 2) + "-" + val.slice(2);
+      } else if (val.length > 4) {
+        val = val.slice(0, 2) + "-" + val.slice(2, 4) + "-" + val.slice(4, 8);
+      }
+      e.target.value = val;
+    });
+
+    // Toggle hint display
+    toggleHintBtn.addEventListener("click", () => {
+      if (hintText.style.display === "block") {
+        hintText.style.display = "none";
+      } else {
+        hintText.style.display = "block";
+      }
+    });
 
     function checkPasscode() {
-      if (passcodeInput.value === SECRET_PASSCODE) {
+      const entered = passcodeInput.value.trim();
+      // Accepts both 10-06-2025 and 10062025
+      if (entered === "10-06-2025" || entered === "10062025") {
         lockScreen.style.display = "none";
         sessionStorage.setItem("siteUnlocked", "true");
+        playIntroVideo();
       } else {
         errorMsg.style.display = "block";
-        passcodeInput.value = "";
       }
+    }
+
+    function playIntroVideo() {
+      introScreen.style.display = "flex";
+      introIframe.src = `https://www.youtube.com/embed/${INTRO_VIDEO_ID}?autoplay=1&rel=0`;
+    }
+
+    function closeIntroVideo() {
+      introScreen.style.display = "none";
+      introIframe.src = "";
     }
 
     if (sessionStorage.getItem("siteUnlocked") === "true") {
@@ -552,6 +673,7 @@
     passcodeInput.addEventListener("keypress", (e) => {
       if (e.key === "Enter") checkPasscode();
     });
+    skipIntroBtn.addEventListener("click", closeIntroVideo);
 
     // --- Master Video Data Array (Days 181 to 365) ---
     const videos = [
