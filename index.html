@@ -1,94 +1,694 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#0b0710" />
-  <title>For Girasol</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Little Pieces of Me</title>
+  
+  <!-- Old English Font import from Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&family=Cinzel:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Cinzel:wght@400;600;800&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* Reset & Base Variables */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg-dark: #09080c;
+      --card-bg: #121018;
+      --pink-neon: #ff007f;
+      --pink-glow: rgba(255, 0, 127, 0.4);
+      --purple-neon: #9d4edd;
+      --purple-glow: rgba(157, 78, 221, 0.35);
+      --text-main: #e2e8f0;
+      --text-muted: #8c889b;
+      --border-goth: rgba(255, 0, 127, 0.25);
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      min-height: 100vh;
+      padding-bottom: 60px;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Subtle Film Grain Noise Overlay */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: radial-gradient(circle, transparent 20%, #000 130%),
+                  url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Ambient Glowing Orbs */
+    .glow-orb {
+      position: fixed;
+      width: 350px;
+      height: 350px;
+      border-radius: 50%;
+      filter: blur(120px);
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.35;
+    }
+    .orb-1 { top: -50px; left: -50px; background: var(--pink-neon); }
+    .orb-2 { bottom: 100px; right: -50px; background: var(--purple-neon); }
+
+    .content-wrapper {
+      position: relative;
+      z-index: 2;
+    }
+
+    /* --- Password Overlay Screen --- */
+    .lock-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(9, 8, 12, 0.98);
+      backdrop-filter: blur(10px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+
+    .lock-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-goth);
+      padding: 40px 30px;
+      border-radius: 16px;
+      text-align: center;
+      box-shadow: 0 0 40px var(--pink-glow), inset 0 0 15px rgba(0,0,0,0.8);
+      max-width: 400px;
+      width: 90%;
+    }
+
+    .lock-card h2 {
+      font-family: 'UnifrakturMaguntia', serif;
+      font-size: 2.8rem;
+      color: var(--pink-neon);
+      text-shadow: 0 0 12px var(--pink-glow);
+      margin-bottom: 6px;
+    }
+
+    .lock-card p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-bottom: 24px;
+    }
+
+    .lock-card input[type="password"] {
+      width: 100%;
+      padding: 14px;
+      border-radius: 8px;
+      border: 1px solid rgba(157, 78, 221, 0.4);
+      background: #000;
+      color: #fff;
+      font-size: 1.1rem;
+      text-align: center;
+      margin-bottom: 16px;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+
+    .lock-card input[type="password"]:focus {
+      border-color: var(--pink-neon);
+      box-shadow: 0 0 12px var(--pink-glow);
+    }
+
+    .lock-card button {
+      width: 100%;
+      padding: 14px;
+      border-radius: 8px;
+      border: none;
+      background: linear-gradient(135deg, var(--pink-neon), var(--purple-neon));
+      color: #fff;
+      font-family: 'Cinzel', serif;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      cursor: pointer;
+      box-shadow: 0 4px 15px var(--purple-glow);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .lock-card button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px var(--pink-glow);
+    }
+
+    .error-msg {
+      color: #ff4d4d;
+      font-size: 0.85rem;
+      margin-top: 12px;
+      display: none;
+    }
+
+    /* --- Header & Typography --- */
+    .header {
+      text-align: center;
+      padding: 60px 20px 20px 20px;
+    }
+
+    .header h1 {
+      font-family: 'UnifrakturMaguntia', serif;
+      font-size: 4.2rem;
+      color: var(--pink-neon);
+      text-shadow: 0 0 20px var(--pink-glow), 0 0 40px var(--purple-glow);
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+
+    .header p {
+      font-family: 'Cinzel', serif;
+      color: var(--purple-neon);
+      letter-spacing: 2px;
+      font-size: 0.95rem;
+      text-transform: uppercase;
+    }
+
+    /* --- Search & Controls Section --- */
+    .search-container {
+      max-width: 500px;
+      margin: 30px auto 40px auto;
+      padding: 0 20px;
+    }
+
+    .search-box {
+      position: relative;
+      width: 100%;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 14px 20px;
+      border-radius: 30px;
+      border: 1px solid var(--border-goth);
+      background: rgba(18, 16, 24, 0.8);
+      backdrop-filter: blur(8px);
+      color: #fff;
+      font-size: 0.95rem;
+      outline: none;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+      transition: all 0.3s ease;
+    }
+
+    .search-box input:focus {
+      border-color: var(--purple-neon);
+      box-shadow: 0 0 15px var(--purple-glow);
+    }
+
+    /* --- Responsive Video Grid --- */
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 28px;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Gothic Scrapbook Video Card */
+    .video-card {
+      background: var(--card-bg);
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      position: relative;
+    }
+
+    .video-card:hover {
+      transform: translateY(-6px) scale(1.01);
+      border-color: var(--pink-neon);
+      box-shadow: 0 12px 30px var(--pink-glow);
+    }
+
+    /* Scrapbook Tape Detail */
+    .video-card::before {
+      content: "";
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 14px;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(2px);
+      border: 1px dashed rgba(255,255,255,0.15);
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    /* 16:9 Aspect Ratio Container */
+    .video-container {
+      position: relative;
+      padding-bottom: 56.25%; /* 16:9 ratio */
+      height: 0;
+      background-color: #000;
+      overflow: hidden;
+    }
+
+    .video-thumbnail {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.85;
+      transition: transform 0.4s ease, opacity 0.4s ease;
+    }
+
+    .video-card:hover .video-thumbnail {
+      transform: scale(1.05);
+      opacity: 1;
+    }
+
+    .play-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: rgba(0, 0, 0, 0.3);
+      transition: background 0.3s;
+    }
+
+    .play-icon {
+      width: 50px;
+      height: 50px;
+      background: rgba(255, 0, 127, 0.85);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 0 15px var(--pink-glow);
+      transition: transform 0.3s ease;
+    }
+
+    .play-icon::after {
+      content: "";
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 8px 0 8px 14px;
+      border-color: transparent transparent transparent #ffffff;
+      margin-left: 3px;
+    }
+
+    .video-card:hover .play-icon {
+      transform: scale(1.15);
+      background: var(--pink-neon);
+    }
+
+    .video-title {
+      padding: 16px;
+      font-family: 'Cinzel', serif;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-main);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .video-title span {
+      color: var(--purple-neon);
+      font-size: 0.85rem;
+    }
+
+    /* --- Day 365 Ending Section --- */
+    .ending-section {
+      max-width: 1000px;
+      margin: 80px auto 40px auto;
+      padding: 40px 24px;
+      background: linear-gradient(180deg, var(--card-bg) 0%, rgba(15, 10, 25, 0.9) 100%);
+      border: 1px solid var(--pink-neon);
+      border-radius: 20px;
+      box-shadow: 0 0 40px var(--pink-glow);
+      text-align: center;
+      position: relative;
+    }
+
+    .ending-section h2 {
+      font-family: 'UnifrakturMaguntia', serif;
+      font-size: 3.5rem;
+      color: var(--pink-neon);
+      text-shadow: 0 0 15px var(--pink-glow);
+      margin-bottom: 12px;
+    }
+
+    .ending-section p {
+      color: var(--text-main);
+      font-size: 1.1rem;
+      line-height: 1.7;
+      max-width: 700px;
+      margin: 0 auto 30px auto;
+    }
+
+    /* --- Full-Screen Video Player Modal --- */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(5, 4, 8, 0.95);
+      backdrop-filter: blur(12px);
+      z-index: 10000;
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .modal-content {
+      width: 100%;
+      max-width: 1000px;
+      position: relative;
+    }
+
+    .modal-player-container {
+      position: relative;
+      padding-bottom: 56.25%; /* 16:9 */
+      height: 0;
+      background: #000;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border-goth);
+      box-shadow: 0 0 50px var(--purple-glow);
+    }
+
+    .modal-player-container iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    .modal-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 20px;
+    }
+
+    .modal-title {
+      font-family: 'Cinzel', serif;
+      font-size: 1.3rem;
+      color: var(--pink-neon);
+      text-shadow: 0 0 10px var(--pink-glow);
+    }
+
+    .nav-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-goth);
+      color: var(--text-main);
+      padding: 10px 20px;
+      border-radius: 30px;
+      font-family: 'Cinzel', serif;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .nav-btn:hover {
+      background: var(--pink-neon);
+      color: #fff;
+      box-shadow: 0 0 15px var(--pink-glow);
+    }
+
+    .close-btn {
+      position: absolute;
+      top: -45px;
+      right: 0;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 2rem;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+
+    .close-btn:hover {
+      color: var(--pink-neon);
+    }
+
+    /* --- Responsive Adjustments --- */
+    @media (max-width: 768px) {
+      .header h1 { font-size: 3rem; }
+      .ending-section h2 { font-size: 2.5rem; }
+      .modal-controls {
+        flex-direction: column;
+        gap: 15px;
+      }
+    }
+  </style>
 </head>
 <body>
-  <div class="noise"></div>
-  <div class="grain"></div>
-  <div class="orb orb-one"></div>
-  <div class="orb orb-two"></div>
 
-  <header class="topbar">
-    <a class="brand" href="#home"><span>✶</span> FOR GIRASOL</a>
-    <button id="musicToggle" class="music-btn" aria-label="Toggle ambient sound">♪ <span>sound off</span></button>
-  </header>
+  <!-- Ambient Glow Background -->
+  <div class="glow-orb orb-1"></div>
+  <div class="glow-orb orb-2"></div>
 
-  <main>
-    <section id="home" class="hero">
-      <div class="hero-symbol">✦</div>
-      <p class="kicker">A PRIVATE VIDEO ARCHIVE</p>
-      <h1>For<br><em>Girasol</em></h1>
-      <div class="ornament">— ✦ —</div>
-      <p class="hero-copy">Day 181 through Day 365.<br>A year told one video at a time.</p>
-      <button id="enterBtn" class="cta">ENTER THE ARCHIVE <span>↘</span></button>
-      <p class="scroll-note">SCROLL TO BEGIN</p>
+  <!-- Password Overlay Screen -->
+  <div id="lockScreen" class="lock-screen">
+    <div class="lock-card">
+      <h2>Restricted Access</h2>
+      <p>Enter the passcode to enter.</p>
+      <input type="password" id="passcode" placeholder="Enter Passcode" autocomplete="off" />
+      <button id="submitBtn">Unlock Chapter</button>
+      <div id="errorMsg" class="error-msg">Incorrect passcode. Try again.</div>
+    </div>
+  </div>
+
+  <div class="content-wrapper">
+    <header class="header">
+      <h1>Little Pieces of Me</h1>
+    </header>
+
+    <!-- Search Section -->
+    <div class="search-container">
+      <div class="search-box">
+        <input type="text" id="searchInput" placeholder=" Search Day (e.g. 181, 250, 365)..." />
+      </div>
+    </div>
+
+    <!-- Video Cards Grid -->
+    <main>
+      <div id="video-grid" class="video-grid"></div>
+    </main>
+
+    <!-- Dedicated Day 365 Ending Section -->
+    <section class="ending-section" id="day365-section">
+      <h2>Day 365: The Final Chapter</h2>
+      <p>One full year preserved in time. Every video, memory, and moment collected in this archive.</p>
+      <div id="day365-card-slot"></div>
     </section>
+  </div>
 
-    <section id="archive" class="archive">
-      <div class="section-heading">
-        <p class="kicker">THE ARCHIVE</p>
-        <h2>Our videos</h2>
-        <p>Every day has something waiting for you.</p>
+  <!-- Fullscreen Modal Player -->
+  <div id="videoModal" class="modal-overlay">
+    <div class="modal-content">
+      <button class="close-btn" id="closeModal">&times;</button>
+      <div class="modal-player-container">
+        <iframe id="modalIframe" src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>
       </div>
-
-      <div class="controls">
-        <div class="search-wrap">
-          <span>⌕</span>
-          <input id="search" type="search" placeholder="Find a day..." autocomplete="off">
-        </div>
-        <div class="count" id="count">185 videos</div>
-      </div>
-
-      <div id="dayGrid" class="day-grid"></div>
-    </section>
-
-    <section id="final" class="final-section">
-      <div class="final-inner">
-        <p class="kicker">DAY 365</p>
-        <h2>The last page.<br><em>Not the end.</em></h2>
-        <div class="final-flower">✶</div>
-        <p>For Girasol.<br>Always.</p>
-      </div>
-    </section>
-  </main>
-
-  <div id="modal" class="modal" aria-hidden="true">
-    <div class="modal-backdrop" id="backdrop"></div>
-    <div class="player-card">
-      <button class="close" id="close">×</button>
-      <div class="player-top">
-        <div>
-          <p class="kicker" id="dayLabel">DAY 181</p>
-          <h2 id="videoTitle">For you.</h2>
-        </div>
-        <div class="heart">♡</div>
-      </div>
-
-      <div class="video-frame">
-        <video id="video" controls playsinline preload="metadata"></video>
-        <div id="placeholder" class="placeholder">
-          <div class="placeholder-mark">✦</div>
-          <p>VIDEO NOT ADDED YET</p>
-          <small>Add <code>videos/day-181.mp4</code> to the site folder.</small>
-        </div>
-      </div>
-
-      <div class="player-bottom">
-        <button id="prev" class="nav-btn">← PREVIOUS</button>
-        <span id="position">181 / 365</span>
-        <button id="next" class="nav-btn">NEXT →</button>
+      <div class="modal-controls">
+        <button class="nav-btn" id="prevBtn">&larr; Previous Day</button>
+        <div class="modal-title" id="modalTitle">Day 181</div>
+        <button class="nav-btn" id="nextBtn">Next Day &rarr;</button>
       </div>
     </div>
   </div>
 
-  <script src="script.js"></script>
+  <script>
+    // --- Password Gate Security ---
+    const SECRET_PASSCODE = "10062025";
+    const lockScreen = document.getElementById("lockScreen");
+    const passcodeInput = document.getElementById("passcode");
+    const submitBtn = document.getElementById("submitBtn");
+    const errorMsg = document.getElementById("errorMsg");
+
+    function checkPasscode() {
+      if (passcodeInput.value === SECRET_PASSCODE) {
+        lockScreen.style.display = "none";
+        sessionStorage.setItem("siteUnlocked", "true");
+      } else {
+        errorMsg.style.display = "block";
+        passcodeInput.value = "";
+      }
+    }
+
+    if (sessionStorage.getItem("siteUnlocked") === "true") {
+      lockScreen.style.display = "none";
+    }
+
+    submitBtn.addEventListener("click", checkPasscode);
+    passcodeInput.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") checkPasscode();
+    });
+
+    // --- Master Video Data Array (Days 181 to 365) ---
+    const videos = [
+      { day: "Day 181", id: "f7xe0PpFEKM" },
+      { day: "Day 182", id: "MGxLNvTZoFM" },
+      { day: "Day 183", id: "3n_zJBvTAk8" },
+      { day: "Day 184", id: "cJF32kcIJ6M" },
+      { day: "Day 187", id: "s1XXoR2O2QE" },
+      { day: "Day 188", id: "kPoGdVC4CfE" },
+      { day: "Day 189", id: "iij0JrQqdbU" },
+      { day: "Day 190", id: "fTXRltyizSk" },
+      { day: "Day 191", id: "rkAKV39IFU0" },
+      { day: "Day 192", id: "L_M2UOYEoi4" },
+      { day: "Day 196", id: "ZX85rkbXxa4" },
+      { day: "Day 197", id: "KQLgqQCQpQY" },
+      { day: "Day 198", id: "YTfs3f3_PSY" },
+      { day: "Day 199", id: "WhZK2Z54GrQ" },
+      { day: "Day 200", id: "es_r26_cmfc" },
+      { day: "Day 201", id: "6eqTHEO4QH8" },
+      { day: "Day 202", id: "NiT31XKxvgk" },
+      { day: "Day 203", id: "aHSt_3x3JYQ" },
+      { day: "Day 204", id: "g88gBXeDcPQ" },
+      { day: "Day 205", id: "eqVqBe32GW0" },
+      { day: "Day 206", id: "wiPhRD1QU1k" },
+      { day: "Day 207", id: "MyUrPWxkdGA" },
+      { day: "Day 208", id: "o0cTJQ-F2Dk" },
+      { day: "Day 209", id: "Q8MbHTFSQhM" },
+      { day: "Day 210", id: "BFcThnYXSiQ" },
+      { day: "Day 211", id: "DyIyG7_xzbQ" },
+      { day: "Day 226", id: "e1uQz5L_WNo" },
+      { day: "Day 227", id: "cUuLuRYMDtQ" },
+      // Day 365 Grand Finale entry
+      { day: "Day 365", id: "f7xe0PpFEKM" } 
+    ];
+
+    let currentVideoIndex = 0;
+    const gridContainer = document.getElementById("video-grid");
+    const searchInput = document.getElementById("searchInput");
+    const modal = document.getElementById("videoModal");
+    const modalIframe = document.getElementById("modalIframe");
+    const modalTitle = document.getElementById("modalTitle");
+    const closeModal = document.getElementById("closeModal");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const day365Slot = document.getElementById("day365-card-slot");
+
+    // --- Render Grid Cards ---
+    function renderCards(filterText = "") {
+      gridContainer.innerHTML = "";
+      
+      videos.forEach((video, index) => {
+        // Exclude Day 365 from standard grid so it sits in its ending section
+        if (video.day === "Day 365") return;
+
+        if (filterText && !video.day.toLowerCase().includes(filterText.toLowerCase())) {
+          return;
+        }
+
+        const card = createCardElement(video, index);
+        gridContainer.appendChild(card);
+      });
+    }
+
+    // --- Card DOM Creation ---
+    function createCardElement(video, index) {
+      const card = document.createElement("div");
+      card.className = "video-card";
+      
+      // Auto YouTube Thumbnail URL
+      const thumbnailUrl = `https://img.youtube.com/vi/${video.id}/hqdefault.jpg`;
+
+      card.innerHTML = `
+        <div class="video-container">
+          <img class="video-thumbnail" src="${thumbnailUrl}" alt="${video.day}" loading="lazy" />
+          <div class="play-overlay">
+            <div class="play-icon"></div>
+          </div>
+        </div>
+        <p class="video-title">${video.day} <span>✦ Archive</span></p>
+      `;
+
+      card.addEventListener("click", () => openModal(index));
+      return card;
+    }
+
+    // --- Special Render for Day 365 ---
+    function setupDay365() {
+      const day365Index = videos.findIndex(v => v.day === "Day 365");
+      if (day365Index !== -1) {
+        const card = createCardElement(videos[day365Index], day365Index);
+        day365Slot.appendChild(card);
+      }
+    }
+
+    // --- Modal Navigation & Player Functions ---
+    function openModal(index) {
+      currentVideoIndex = index;
+      updateModalContent();
+      modal.style.display = "flex";
+    }
+
+    function updateModalContent() {
+      const video = videos[currentVideoIndex];
+      modalIframe.src = `https://www.youtube.com/embed/${video.id}?autoplay=1&rel=0`;
+      modalTitle.innerText = video.day;
+    }
+
+    function closeModalPlayer() {
+      modal.style.display = "none";
+      modalIframe.src = "";
+    }
+
+    prevBtn.addEventListener("click", () => {
+      currentVideoIndex = (currentVideoIndex - 1 + videos.length) % videos.length;
+      updateModalContent();
+    });
+
+    nextBtn.addEventListener("click", () => {
+      currentVideoIndex = (currentVideoIndex + 1) % videos.length;
+      updateModalContent();
+    });
+
+    closeModal.addEventListener("click", closeModalPlayer);
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) closeModalPlayer();
+    });
+
+    // Search event listener
+    searchInput.addEventListener("input", (e) => {
+      renderCards(e.target.value);
+    });
+
+    // Initialize Page
+    document.addEventListener("DOMContentLoaded", () => {
+      renderCards();
+      setupDay365();
+    });
+  </script>
 </body>
 </html>
