@@ -587,7 +587,7 @@
 
     <!-- Dedicated Day 365 Ending Section -->
     <section class="ending-section" id="day365-section">
-      <h2>Day 365: The Final Chapter</h2>
+      <h2>Day 365: The Final Day</h2>
       <p>One full year preserved in time. Every video, memory, and moment collected in this archive.</p>
       <div id="day365-card-slot"></div>
     </section>
@@ -610,7 +610,7 @@
 
   <script>
     // --- Password Gate & Intro Setup ---
-    const INTRO_VIDEO_ID = "f7xe0PpFEKM"; 
+    const INTRO_VIDEO_ID = ""; 
 
     const lockScreen = document.getElementById("lockScreen");
     const passcodeInput = document.getElementById("passcode");
@@ -759,7 +759,7 @@
             <div class="play-icon"></div>
           </div>
         </div>
-        <p class="video-title">${video.day} <span>✦ Archive</span></p>
+        <p class="video-title">${video.day} <span></span></p>
       `;
 
       card.addEventListener("click", () => openModal(index));
