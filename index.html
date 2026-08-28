@@ -4,10 +4,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Little Pieces of Me</title>
   
-  <!-- Old English Font import from Google Fonts -->
+  <!-- Font Imports -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Cinzel:wght@400;600;800&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Cinzel:wght@400;600;800&family=Caveat:wght@600&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
 
   <style>
     /* Reset & Base Variables */
@@ -20,6 +20,8 @@
     :root {
       --bg-dark: #09080c;
       --card-bg: #121018;
+      --polaroid-bg: #f5f0eb;
+      --polaroid-text: #1a1625;
       --pink-neon: #ff007f;
       --pink-glow: rgba(255, 0, 127, 0.4);
       --purple-neon: #9d4edd;
@@ -112,8 +114,7 @@
       margin-bottom: 24px;
     }
 
-    .lock-card input[type="text"],
-    .lock-card input[type="password"] {
+    .lock-card input[type="text"] {
       width: 100%;
       padding: 14px;
       border-radius: 8px;
@@ -133,7 +134,6 @@
       box-shadow: 0 0 12px var(--pink-glow);
     }
 
-    /* Password Hint Styling */
     .hint-btn {
       background: none;
       border: none;
@@ -283,57 +283,65 @@
       box-shadow: 0 0 15px var(--purple-glow);
     }
 
-    /* --- Responsive Video Grid --- */
+    /* --- Responsive Polaroid Video Grid --- */
     .video-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 28px;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 36px 28px;
       max-width: 1400px;
       margin: 0 auto;
       padding: 0 24px;
     }
 
-    /* Gothic Scrapbook Video Card */
+    /* POLAROID CARD STYLING */
     .video-card {
-      background: var(--card-bg);
-      border-radius: 14px;
-      overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+      background: var(--polaroid-bg);
+      padding: 14px 14px 22px 14px;
+      border-radius: 2px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7);
       cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
       position: relative;
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    /* Slight alternating rotations for scrapbook effect */
+    .video-card:nth-child(even) {
+      transform: rotate(1.5deg);
+    }
+    .video-card:nth-child(odd) {
+      transform: rotate(-1.5deg);
     }
 
     .video-card:hover {
-      transform: translateY(-6px) scale(1.01);
-      border-color: var(--pink-neon);
-      box-shadow: 0 12px 30px var(--pink-glow);
+      transform: translateY(-8px) rotate(0deg) scale(1.03);
+      z-index: 10;
+      box-shadow: 0 15px 35px var(--pink-glow), 0 5px 15px rgba(0,0,0,0.8);
     }
 
-    /* Scrapbook Tape Detail */
+    /* Scrapbook Washi Tape Header Detail */
     .video-card::before {
       content: "";
       position: absolute;
-      top: 10px;
+      top: -10px;
       left: 50%;
-      transform: translateX(-50%);
-      width: 60px;
-      height: 14px;
-      background: rgba(255, 255, 255, 0.08);
+      transform: translateX(-50%) rotate(-1deg);
+      width: 80px;
+      height: 22px;
+      background: rgba(255, 0, 127, 0.25);
       backdrop-filter: blur(2px);
-      border: 1px dashed rgba(255,255,255,0.15);
-      z-index: 2;
+      border: 1px dashed rgba(255, 255, 255, 0.3);
+      z-index: 5;
       pointer-events: none;
     }
 
-    /* 16:9 Aspect Ratio Container */
+    /* Photo Frame Container */
     .video-container {
       position: relative;
-      padding-bottom: 56.25%; /* 16:9 ratio */
+      padding-bottom: 75%; /* 4:3 Polaroid photo aspect ratio */
       height: 0;
-      background-color: #000;
+      background-color: #111;
       overflow: hidden;
+      border: 1px solid rgba(0,0,0,0.15);
     }
 
     .video-thumbnail {
@@ -343,13 +351,12 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      opacity: 0.85;
-      transition: transform 0.4s ease, opacity 0.4s ease;
+      filter: contrast(1.05) saturate(1.1);
+      transition: transform 0.4s ease, filter 0.4s ease;
     }
 
     .video-card:hover .video-thumbnail {
-      transform: scale(1.05);
-      opacity: 1;
+      transform: scale(1.06);
     }
 
     .play-overlay {
@@ -361,14 +368,14 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      background: rgba(0, 0, 0, 0.3);
+      background: rgba(0, 0, 0, 0.25);
       transition: background 0.3s;
     }
 
     .play-icon {
-      width: 50px;
-      height: 50px;
-      background: rgba(255, 0, 127, 0.85);
+      width: 48px;
+      height: 48px;
+      background: rgba(255, 0, 127, 0.9);
       border-radius: 50%;
       display: flex;
       justify-content: center;
@@ -382,7 +389,7 @@
       width: 0;
       height: 0;
       border-style: solid;
-      border-width: 8px 0 8px 14px;
+      border-width: 7px 0 7px 12px;
       border-color: transparent transparent transparent #ffffff;
       margin-left: 3px;
     }
@@ -392,25 +399,20 @@
       background: var(--pink-neon);
     }
 
+    /* Polaroid Handwritten Caption Text */
     .video-title {
-      padding: 16px;
-      font-family: 'Cinzel', serif;
-      font-size: 1rem;
+      padding-top: 14px;
+      font-family: 'Caveat', cursive;
+      font-size: 1.6rem;
       font-weight: 600;
-      color: var(--text-main);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .video-title span {
-      color: var(--purple-neon);
-      font-size: 0.85rem;
+      color: var(--polaroid-text);
+      text-align: center;
+      line-height: 1;
     }
 
     /* --- Day 365 Ending Section --- */
     .ending-section {
-      max-width: 1000px;
+      max-width: 500px;
       margin: 80px auto 40px auto;
       padding: 40px 24px;
       background: linear-gradient(180deg, var(--card-bg) 0%, rgba(15, 10, 25, 0.9) 100%);
@@ -433,7 +435,6 @@
       color: var(--text-main);
       font-size: 1.1rem;
       line-height: 1.7;
-      max-width: 700px;
       margin: 0 auto 30px auto;
     }
 
@@ -528,7 +529,7 @@
       color: var(--pink-neon);
     }
 
-    /* --- Responsive Adjustments --- */
+    /* Responsive Adjustments */
     @media (max-width: 768px) {
       .header h1 { font-size: 3rem; }
       .ending-section h2 { font-size: 2.5rem; }
@@ -560,7 +561,7 @@
     </div>
   </div>
 
-  <!-- Intro Video Screen (Plays directly after entering passcode) -->
+  <!-- Intro Video Screen -->
   <div id="introScreen" class="intro-screen">
     <div class="intro-video-wrapper">
       <iframe id="introIframe" src="" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
@@ -609,7 +610,6 @@
   </div>
 
   <script>
-    // --- Password Gate & Intro Setup ---
     const INTRO_VIDEO_ID = ""; 
 
     const lockScreen = document.getElementById("lockScreen");
@@ -622,9 +622,8 @@
     const introIframe = document.getElementById("introIframe");
     const skipIntroBtn = document.getElementById("skipIntroBtn");
 
-    // Automatic formatting for XX-XX-XXXX input
     passcodeInput.addEventListener("input", (e) => {
-      let val = e.target.value.replace(/\D/g, ""); // strip non-digits
+      let val = e.target.value.replace(/\D/g, "");
       if (val.length > 2 && val.length <= 4) {
         val = val.slice(0, 2) + "-" + val.slice(2);
       } else if (val.length > 4) {
@@ -633,13 +632,8 @@
       e.target.value = val;
     });
 
-    // Toggle hint display
     toggleHintBtn.addEventListener("click", () => {
-      if (hintText.style.display === "block") {
-        hintText.style.display = "none";
-      } else {
-        hintText.style.display = "block";
-      }
+      hintText.style.display = (hintText.style.display === "block") ? "none" : "block";
     });
 
     function checkPasscode() {
@@ -654,8 +648,8 @@
     }
 
     function playIntroVideo() {
+      if (!INTRO_VIDEO_ID) return closeIntroVideo();
       introScreen.style.display = "flex";
-      // Using youtube-nocookie.com domain to prevent mobile sign-in prompt
       introIframe.src = `https://www.youtube-nocookie.com/embed/${INTRO_VIDEO_ID}?autoplay=1&rel=0&playsinline=1`;
     }
 
@@ -674,140 +668,140 @@
     });
     skipIntroBtn.addEventListener("click", closeIntroVideo);
 
-    // --- Master Video Data Array (Days 181 to 365) ---
+    // --- Master Video Data Array ---
+    // You can now specify a custom thumbnail image URL or file path (e.g., thumbnail: "images/day181.jpg").
+    // If left empty or omitted, it defaults to the YouTube thumbnail.
     const videos = [
-      { day: "Day 181", id: "f7xe0PpFEKM" },
-      { day: "Day 182", id: "MGxLNvTZoFM" },
-      { day: "Day 183", id: "3n_zJBvTAk8" },
-      { day: "Day 184", id: "cJF32kcIJ6M" },
-      { day: "Day 187", id: "s1XXoR2O2QE" },
-      { day: "Day 188", id: "kPoGdVC4CfE" },
-      { day: "Day 189", id: "iij0JrQqdbU" },
-      { day: "Day 190", id: "fTXRltyizSk" },
-      { day: "Day 191", id: "rkAKV39IFU0" },
-      { day: "Day 192", id: "L_M2UOYEoi4" },
-      { day: "Day 196", id: "ZX85rkbXxa4" },
-      { day: "Day 197", id: "KQLgqQCQpQY" },
-      { day: "Day 198", id: "YTfs3f3_PSY" },
-      { day: "Day 199", id: "WhZK2Z54GrQ" },
-      { day: "Day 200", id: "es_r26_cmfc" },
-      { day: "Day 201", id: "6eqTHEO4QH8" },
-      { day: "Day 202", id: "NiT31XKxvgk" },
-      { day: "Day 203", id: "aHSt_3x3JYQ" },
-      { day: "Day 204", id: "g88gBXeDcPQ" },
-      { day: "Day 205", id: "eqVqBe32GW0" },
-      { day: "Day 206", id: "wiPhRD1QU1k" },
-      { day: "Day 207", id: "MyUrPWxkdGA" },
-      { day: "Day 208", id: "o0cTJQ-F2Dk" },
-      { day: "Day 209", id: "Q8MbHTFSQhM" },
-      { day: "Day 210", id: "BFcThnYXSiQ" },
-      { day: "Day 211", id: "DyIyG7_xzbQ" },
-      { day: "Day 216", id: "ZfaIGmtzDRA" },
-      { day: "Day 217", id: "LBWYrbhxoTE" },
-      { day: "Day 218", id: "RrXYDsVjezQ" },
-      { day: "Day 219", id: "R1AOsbFinfQ" },
-      { day: "Day 220", id: "JSfr5UGKnHw" },
-      { day: "Day 221", id: "WAZyR2s6WXc" },
-      { day: "Day 222", id: "1DMseZA_P6g" },
-      { day: "Day 223", id: "xb3CCptZC4k" },
-      { day: "Day 224", id: "4H81xbcffJA" },
-      { day: "Day 225", id: "z8kskya-ExA" },
-      { day: "Day 226", id: "e1uQz5L_WNo" },
-      { day: "Day 227", id: "cUuLuRYMDtQ" },
-      { day: "Day 228", id: "cvJko9TO1ZM" },
-      { day: "Day 229", id: "UVA9gvmJVVs" },
-      { day: "Day 230", id: "mKPfUw69c3Q" },
-      { day: "Day 231", id: "QYEL6Lkct4U" },
-      { day: "Day 232", id: "JoRPNzGdfoc" },
-      { day: "Day 233", id: "aCarA-_OI0o" },
-      { day: "Day 234", id: "_yJxfB2ROaw" },
-      { day: "Day 235", id: "BY7zPCqfbEE" },
-      { day: "Day 236", id: "M1e5Coxl9AY" },
-      { day: "Day 237", id: "o3weRc9tzos" },
-      { day: "Day 238", id: "c_UaaxB--4g" },
-      { day: "Day 239", id: "uTEwYSVikiI" },
-      { day: "Day 242", id: "tqXLoAUxG3k" },
-      { day: "Day 243", id: "yRQjHpi0TX4" },
-      { day: "Day 244", id: "WHkEUv5Wefo" },
-      { day: "Day 245", id: "p5OPDNpkmcQ" },
-      { day: "Day 246", id: "6NBhaMLjdwM" },
-      { day: "Day 247", id: "UtIY6uwYMc4" },
-      { day: "Day 248", id: "0AxVceXjMxE" },
-      { day: "Day 249", id: "IzYfSVbZaI0" },
-      { day: "Day 250", id: "kfj7epYmNvg" },
-      { day: "Day 251", id: "6HwqFJu3CHI" },
-      { day: "Day 252", id: "8G4NkzRBnGM" },
-      { day: "Day 253", id: "WkoYsCDhmXs" },
-      { day: "Day 254", id: "aC7AtYL4edA" },
-      { day: "Day 255", id: "dCRuzAvhRk0" },
-      { day: "Day 256", id: "KyWWEipvL90" },
-      { day: "Day 257", id: "Vn2-Toi_LAY" },
-      { day: "Day 258", id: "YFcBlzJAN-I" },
-      { day: "Day 259", id: "zrPCg1OWG4U" },
-      { day: "Day 260", id: "nAEB7IWFlIk" },
-      { day: "Day 261", id: "7hYuwSQw9Mc" },
-      { day: "Day 262", id: "12vBSW9Ygmc" },
-      { day: "Day 263", id: "iNJdm5-dPiw" },
-      { day: "Day 264", id: "DbCO1hSuJQI" },
-      { day: "Day 265", id: "SU2Z8riOQZY" },
-      { day: "Day 266", id: "0oIWoBsbls0" },
-      { day: "Day 267", id: "jmgNCDh9PdU" },
-      { day: "Day 268", id: "tSseicYyH1s" },
-      { day: "Day 269", id: "lceaq90-G6A" },
-      { day: "Day 270", id: "gwLbJvF4EME" },
-      { day: "Day 271", id: "n_LS6QSAkKQ" },
-      { day: "Day 272", id: "LerS-hXg3gE" },
-      { day: "Day 273", id: "t7LUXFcWqnk" },
-      { day: "Day 274", id: "0EMN-vgu_gQ" },
-      { day: "Day 275", id: "o1I6y2BYPcw" },
-      { day: "Day 276", id: "34kA2vReAUw" },
-      { day: "Day 277", id: "oarXcsm2Poo" },
-      { day: "Day 278", id: "ruN4BKTEOHI" },
-      { day: "Day 279", id: "YcYhe40bUAw" },
-      { day: "Day 280", id: "IkkRKe_Adfg" },
-      { day: "Day 281", id: "3KwNuAdDe1Q" },
-      { day: "Day 282", id: "KWHXzFi-hxE" },
-      { day: "Day 283", id: "mSC-2OsbSxg" },
-      { day: "Day 284", id: "Docv6-kXo9k" },
-      { day: "Day 285", id: "kok-IQRLu_E" },
-      { day: "Day 286", id: "s_TmYg6uRjs" },
-      { day: "Day 287", id: "wkPRd_1vOWI" },
-      { day: "Day 288", id: "IOXdl9LaynU" },
-      { day: "Day 289", id: "81ahiqK53jc" },
-      { day: "Day 290", id: "u75mZudNroI" },
-      { day: "Day 291", id: "9rs41Ww_BGI" },
-      { day: "Day 292", id: "FHmJU_dLqaE" },
-      { day: "Day 293", id: "rhKXF0MpnmM" },
-      { day: "Day 294", id: "WnVAcORRSh8" },
-      { day: "Day 295", id: "SkqgWZNVnQE" },
-      { day: "Day 296", id: "cgL0ZfDBPq0" },
-      { day: "Day 297", id: "X83o1RnsxaM" },
-      { day: "Day 298", id: "Ar-EyyGRwxs" },
-      { day: "Day 299", id: "qmcWXzeIKYo" },
-      { day: "Day 300", id: "IzYfSVbZaI0" },
-      { day: "Day 301", id: "IzYfSVbZaI0" },
-      { day: "Day 302", id: "IzYfSVbZaI0" },
-      { day: "Day 303", id: "IzYfSVbZaI0" },
-      { day: "Day 304", id: "IzYfSVbZaI0" },
-      { day: "Day 305", id: "IzYfSVbZaI0" },
-      { day: "Day 306", id: "IzYfSVbZaI0" },
-      { day: "Day 307", id: "IzYfSVbZaI0" },
-      { day: "Day 308", id: "IzYfSVbZaI0" },
-      { day: "Day 309", id: "IzYfSVbZaI0" },
-      { day: "Day 310", id: "IzYfSVbZaI0" },
-      { day: "Day 311", id: "IzYfSVbZaI0" },
-      { day: "Day 312", id: "IzYfSVbZaI0" },
-      { day: "Day 313", id: "IzYfSVbZaI0" },
-      { day: "Day 314", id: "IzYfSVbZaI0" },
-      { day: "Day 315", id: "IzYfSVbZaI0" },
-      { day: "Day 316", id: "IzYfSVbZaI0" },
-      { day: "Day 317", id: "IzYfSVbZaI0" },
-      { day: "Day 318", id: "IzYfSVbZaI0" },
-
-
+      { day: "Day 181", id: "f7xe0PpFEKM", thumbnail: "" },
+      { day: "Day 182", id: "MGxLNvTZoFM", thumbnail: "" },
+      { day: "Day 183", id: "3n_zJBvTAk8", thumbnail: "" },
+      { day: "Day 184", id: "cJF32kcIJ6M", thumbnail: "" },
+      { day: "Day 187", id: "s1XXoR2O2QE", thumbnail: "" },
+      { day: "Day 188", id: "kPoGdVC4CfE", thumbnail: "" },
+      { day: "Day 189", id: "iij0JrQqdbU", thumbnail: "" },
+      { day: "Day 190", id: "fTXRltyizSk", thumbnail: "" },
+      { day: "Day 191", id: "rkAKV39IFU0", thumbnail: "" },
+      { day: "Day 192", id: "L_M2UOYEoi4", thumbnail: "" },
+      { day: "Day 196", id: "ZX85rkbXxa4", thumbnail: "" },
+      { day: "Day 197", id: "KQLgqQCQpQY", thumbnail: "" },
+      { day: "Day 198", id: "YTfs3f3_PSY", thumbnail: "" },
+      { day: "Day 199", id: "WhZK2Z54GrQ", thumbnail: "" },
+      { day: "Day 200", id: "es_r26_cmfc", thumbnail: "" },
+      { day: "Day 201", id: "6eqTHEO4QH8", thumbnail: "" },
+      { day: "Day 202", id: "NiT31XKxvgk", thumbnail: "" },
+      { day: "Day 203", id: "aHSt_3x3JYQ", thumbnail: "" },
+      { day: "Day 204", id: "g88gBXeDcPQ", thumbnail: "" },
+      { day: "Day 205", id: "eqVqBe32GW0", thumbnail: "" },
+      { day: "Day 206", id: "wiPhRD1QU1k", thumbnail: "" },
+      { day: "Day 207", id: "MyUrPWxkdGA", thumbnail: "" },
+      { day: "Day 208", id: "o0cTJQ-F2Dk", thumbnail: "" },
+      { day: "Day 209", id: "Q8MbHTFSQhM", thumbnail: "" },
+      { day: "Day 210", id: "BFcThnYXSiQ", thumbnail: "" },
+      { day: "Day 211", id: "DyIyG7_xzbQ", thumbnail: "" },
+      { day: "Day 216", id: "ZfaIGmtzDRA", thumbnail: "" },
+      { day: "Day 217", id: "LBWYrbhxoTE", thumbnail: "" },
+      { day: "Day 218", id: "RrXYDsVjezQ", thumbnail: "" },
+      { day: "Day 219", id: "R1AOsbFinfQ", thumbnail: "" },
+      { day: "Day 220", id: "JSfr5UGKnHw", thumbnail: "" },
+      { day: "Day 221", id: "WAZyR2s6WXc", thumbnail: "" },
+      { day: "Day 222", id: "1DMseZA_P6g", thumbnail: "" },
+      { day: "Day 223", id: "xb3CCptZC4k", thumbnail: "" },
+      { day: "Day 224", id: "4H81xbcffJA", thumbnail: "" },
+      { day: "Day 225", id: "z8kskya-ExA", thumbnail: "" },
+      { day: "Day 226", id: "e1uQz5L_WNo", thumbnail: "" },
+      { day: "Day 227", id: "cUuLuRYMDtQ", thumbnail: "" },
+      { day: "Day 228", id: "cvJko9TO1ZM", thumbnail: "" },
+      { day: "Day 229", id: "UVA9gvmJVVs", thumbnail: "" },
+      { day: "Day 230", id: "mKPfUw69c3Q", thumbnail: "" },
+      { day: "Day 231", id: "QYEL6Lkct4U", thumbnail: "" },
+      { day: "Day 232", id: "JoRPNzGdfoc", thumbnail: "" },
+      { day: "Day 233", id: "aCarA-_OI0o", thumbnail: "" },
+      { day: "Day 234", id: "_yJxfB2ROaw", thumbnail: "" },
+      { day: "Day 235", id: "BY7zPCqfbEE", thumbnail: "" },
+      { day: "Day 236", id: "M1e5Coxl9AY", thumbnail: "" },
+      { day: "Day 237", id: "o3weRc9tzos", thumbnail: "" },
+      { day: "Day 238", id: "c_UaaxB--4g", thumbnail: "" },
+      { day: "Day 239", id: "uTEwYSVikiI", thumbnail: "" },
+      { day: "Day 242", id: "tqXLoAUxG3k", thumbnail: "" },
+      { day: "Day 243", id: "yRQjHpi0TX4", thumbnail: "" },
+      { day: "Day 244", id: "WHkEUv5Wefo", thumbnail: "" },
+      { day: "Day 245", id: "p5OPDNpkmcQ", thumbnail: "" },
+      { day: "Day 246", id: "6NBhaMLjdwM", thumbnail: "" },
+      { day: "Day 247", id: "UtIY6uwYMc4", thumbnail: "" },
+      { day: "Day 248", id: "0AxVceXjMxE", thumbnail: "" },
+      { day: "Day 249", id: "IzYfSVbZaI0", thumbnail: "" },
+      { day: "Day 250", id: "kfj7epYmNvg", thumbnail: "" },
+      { day: "Day 251", id: "6HwqFJu3CHI", thumbnail: "" },
+      { day: "Day 252", id: "8G4NkzRBnGM", thumbnail: "" },
+      { day: "Day 253", id: "WkoYsCDhmXs", thumbnail: "" },
+      { day: "Day 254", id: "aC7AtYL4edA", thumbnail: "" },
+      { day: "Day 255", id: "dCRuzAvhRk0", thumbnail: "" },
+      { day: "Day 256", id: "KyWWEipvL90", thumbnail: "" },
+      { day: "Day 257", id: "Vn2-Toi_LAY", thumbnail: "" },
+      { day: "Day 258", id: "YFcBlzJAN-I", thumbnail: "" },
+      { day: "Day 259", id: "zrPCg1OWG4U", thumbnail: "" },
+      { day: "Day 260", id: "nAEB7IWFlIk", thumbnail: "" },
+      { day: "Day 261", id: "7hYuwSQw9Mc", thumbnail: "" },
+      { day: "Day 262", id: "12vBSW9Ygmc", thumbnail: "" },
+      { day: "Day 263", id: "iNJdm5-dPiw", thumbnail: "" },
+      { day: "Day 264", id: "DbCO1hSuJQI", thumbnail: "" },
+      { day: "Day 265", id: "SU2Z8riOQZY", thumbnail: "" },
+      { day: "Day 266", id: "0oIWoBsbls0", thumbnail: "" },
+      { day: "Day 267", id: "jmgNCDh9PdU", thumbnail: "" },
+      { day: "Day 268", id: "tSseicYyH1s", thumbnail: "" },
+      { day: "Day 269", id: "lceaq90-G6A", thumbnail: "" },
+      { day: "Day 270", id: "gwLbJvF4EME", thumbnail: "" },
+      { day: "Day 271", id: "n_LS6QSAkKQ", thumbnail: "" },
+      { day: "Day 272", id: "LerS-hXg3gE", thumbnail: "" },
+      { day: "Day 273", id: "t7LUXFcWqnk", thumbnail: "" },
+      { day: "Day 274", id: "0EMN-vgu_gQ", thumbnail: "" },
+      { day: "Day 275", id: "o1I6y2BYPcw", thumbnail: "" },
+      { day: "Day 276", id: "34kA2vReAUw", thumbnail: "" },
+      { day: "Day 277", id: "oarXcsm2Poo", thumbnail: "" },
+      { day: "Day 278", id: "ruN4BKTEOHI", thumbnail: "" },
+      { day: "Day 279", id: "YcYhe40bUAw", thumbnail: "" },
+      { day: "Day 280", id: "IkkRKe_Adfg", thumbnail: "" },
+      { day: "Day 281", id: "3KwNuAdDe1Q", thumbnail: "" },
+      { day: "Day 282", id: "KWHXzFi-hxE", thumbnail: "" },
+      { day: "Day 283", id: "mSC-2OsbSxg", thumbnail: "" },
+      { day: "Day 284", id: "Docv6-kXo9k", thumbnail: "" },
+      { day: "Day 285", id: "kok-IQRLu_E", thumbnail: "" },
+      { day: "Day 286", id: "s_TmYg6uRjs", thumbnail: "" },
+      { day: "Day 287", id: "wkPRd_1vOWI", thumbnail: "" },
+      { day: "Day 288", id: "IOXdl9LaynU", thumbnail: "" },
+      { day: "Day 289", id: "81ahiqK53jc", thumbnail: "" },
+      { day: "Day 290", id: "u75mZudNroI", thumbnail: "" },
+      { day: "Day 291", id: "9rs41Ww_BGI", thumbnail: "" },
+      { day: "Day 292", id: "FHmJU_dLqaE", thumbnail: "" },
+      { day: "Day 293", id: "rhKXF0MpnmM", thumbnail: "" },
+      { day: "Day 294", id: "WnVAcORRSh8", thumbnail: "" },
+      { day: "Day 295", id: "SkqgWZNVnQE", thumbnail: "" },
+      { day: "Day 296", id: "cgL0ZfDBPq0", thumbnail: "" },
+      { day: "Day 297", id: "X83o1RnsxaM", thumbnail: "" },
+      { day: "Day 298", id: "Ar-EyyGRwxs", thumbnail: "" },
+      { day: "Day 299", id: "qmcWXzeIKYo", thumbnail: "" },
+      { day: "Day 300", id: "IzYfSVbZaI0", thumbnail: "" },
+      { day: "Day 301", id: "IzYfSVbZaI0", thumbnail: "" },
+      { day: "Day 302", id: "IzYfSVbZaI0", thumbnail: "" },
+      { day: "Day 303", id: "IzYfSVbZaI0", thumbnail: "" },
+      { day: "Day 304", id: "IzYfSVbZaI0", thumbnail: "" },
+      { day: "Day 305", id: "IzYfSVbZaI0", thumbnail: "" },
+      { day: "Day 306", id: "IzYfSVbZaI0", thumbnail: "" },
+      { day: "Day 307", id: "IzYfSVbZaI0", thumbnail: "" },
+      { day: "Day 308", id: "IzYfSVbZaI0", thumbnail: "" },
+      { day: "Day 309", id: "IzYfSVbZaI0", thumbnail: "" },
+      { day: "Day 310", id: "IzYfSVbZaI0", thumbnail: "" },
+      { day: "Day 311", id: "IzYfSVbZaI0", thumbnail: "" },
+      { day: "Day 312", id: "IzYfSVbZaI0", thumbnail: "" },
+      { day: "Day 313", id: "IzYfSVbZaI0", thumbnail: "" },
+      { day: "Day 314", id: "IzYfSVbZaI0", thumbnail: "" },
+      { day: "Day 315", id: "IzYfSVbZaI0", thumbnail: "" },
+      { day: "Day 316", id: "IzYfSVbZaI0", thumbnail: "" },
+      { day: "Day 317", id: "IzYfSVbZaI0", thumbnail: "" },
+      { day: "Day 318", id: "IzYfSVbZaI0", thumbnail: "" },
 
       // Day 365 Grand Finale entry
-      { day: "Day 365", id: "f7xe0PpFEKM" } 
+      { day: "Day 365", id: "f7xe0PpFEKM", thumbnail: "" } 
     ];
 
     let currentVideoIndex = 0;
@@ -837,12 +831,15 @@
       });
     }
 
-    // --- Card DOM Creation ---
+    // --- Card DOM Creation (Polaroid Style) ---
     function createCardElement(video, index) {
       const card = document.createElement("div");
       card.className = "video-card";
       
-      const thumbnailUrl = `https://img.youtube.com/vi/${video.id}/hqdefault.jpg`;
+      // Fallback logic: Use video.thumbnail if set, otherwise fetch YouTube HQ thumbnail
+      const thumbnailUrl = video.thumbnail && video.thumbnail.trim() !== "" 
+        ? video.thumbnail 
+        : `https://img.youtube.com/vi/${video.id}/hqdefault.jpg`;
 
       card.innerHTML = `
         <div class="video-container">
@@ -851,7 +848,7 @@
             <div class="play-icon"></div>
           </div>
         </div>
-        <p class="video-title">${video.day} <span></span></p>
+        <p class="video-title">${video.day}</p>
       `;
 
       card.addEventListener("click", () => openModal(index));
@@ -876,7 +873,6 @@
 
     function updateModalContent() {
       const video = videos[currentVideoIndex];
-      // Using youtube-nocookie.com domain + playsinline=1 for smooth mobile playback
       modalIframe.src = `https://www.youtube-nocookie.com/embed/${video.id}?autoplay=1&rel=0&playsinline=1`;
       modalTitle.innerText = video.day;
     }
