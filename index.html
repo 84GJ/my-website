@@ -3,12 +3,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Little Pieces of Me</title>
-  
   <!-- Font Imports -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Cinzel:wght@400;600;800&family=Caveat:wght@600&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
-
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=UnifrakturMaguntia&family=Cinzel:wght@400;600;800&family=Plus+Jakarta+Sans:wght@400;600;700&family=Special+Elite&display=swap" rel="stylesheet">
   <style>
     /* Reset & Base Variables */
     * {
@@ -16,7 +14,6 @@
       margin: 0;
       padding: 0;
     }
-
     :root {
       --bg-dark: #09080c;
       --card-bg: #121018;
@@ -30,7 +27,6 @@
       --text-muted: #8c889b;
       --border-goth: rgba(255, 0, 127, 0.25);
     }
-
     body {
       font-family: 'Plus Jakarta Sans', sans-serif;
       background-color: var(--bg-dark);
@@ -40,7 +36,6 @@
       position: relative;
       overflow-x: hidden;
     }
-
     /* Subtle Film Grain Noise Overlay */
     body::before {
       content: "";
@@ -54,7 +49,6 @@
       pointer-events: none;
       z-index: 1;
     }
-
     /* Ambient Glowing Orbs */
     .glow-orb {
       position: fixed;
@@ -68,135 +62,181 @@
     }
     .orb-1 { top: -50px; left: -50px; background: var(--pink-neon); }
     .orb-2 { bottom: 100px; right: -50px; background: var(--purple-neon); }
-
     .content-wrapper {
       position: relative;
       z-index: 2;
     }
 
-    /* --- Up Scrapbook x Gothic Password Screen --- */
+    /* --- Gothic "UP" Scrapbook Lock Screen --- */
     .lock-screen {
       position: fixed;
       top: 0;
       left: 0;
       width: 100vw;
       height: 100vh;
-      background-color: rgba(9, 8, 12, 0.98);
-      backdrop-filter: blur(10px);
+      background-color: #050408;
+      background-image: radial-gradient(circle at center, #170d22 10%, #040306 90%);
       display: flex;
       justify-content: center;
       align-items: center;
       z-index: 9999;
+      padding: 20px;
+    }
+    
+    /* Dark Gothic Leather & Velvet Book Shell */
+    .lock-card {
+      position: relative;
+      background: #140d18;
+      background-image: 
+        repeating-linear-gradient(45deg, rgba(255, 0, 127, 0.03) 0px, rgba(255, 0, 127, 0.03) 2px, transparent 2px, transparent 6px),
+        radial-gradient(ellipse at center, #24142d 0%, #09050d 100%);
+      border-radius: 8px 18px 18px 8px;
+      padding: 35px 30px;
+      text-align: center;
+      box-shadow: 
+        0 20px 60px rgba(0, 0, 0, 0.95),
+        0 0 30px var(--purple-glow),
+        inset 0 0 35px rgba(0, 0, 0, 0.9),
+        inset 16px 0 20px rgba(0, 0, 0, 0.8);
+      max-width: 460px;
+      width: 100%;
+      border-left: 14px solid #0b070f; /* Spooky Dark Book Spine */
+      border-top: 1px solid var(--border-goth);
+      border-right: 1px solid var(--border-goth);
+      border-bottom: 1px solid var(--border-goth);
+      overflow: hidden;
     }
 
-    .lock-card {
-      background: radial-gradient(circle at center, #1c1822 0%, #0d0b10 100%);
-      border: 4px solid #2d2438;
-      outline: 2px solid var(--pink-neon);
-      outline-offset: -8px;
-      padding: 45px 30px;
-      border-radius: 8px;
-      text-align: center;
-      box-shadow: 0 0 50px rgba(0,0,0,0.9), 0 0 25px var(--pink-glow);
-      max-width: 440px;
-      width: 90%;
+    /* Metallic / Neon Crimson Decorative Stitches */
+    .lock-card::before {
+      content: "";
+      position: absolute;
+      top: 8px;
+      bottom: 8px;
+      left: 8px;
+      right: 8px;
+      border: 2px dashed rgba(255, 0, 127, 0.4);
+      border-radius: 6px;
+      pointer-events: none;
+    }
+
+    /* Aged Parchment / Dark Victorian Badge Frame */
+    .scrapbook-badge {
+      background: #0f0b14;
+      background-image: radial-gradient(circle, #1a1024 0%, #08050c 100%);
+      border: 2px solid var(--pink-neon);
+      border-radius: 12px;
+      padding: 26px 20px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.8), 0 0 15px var(--pink-glow), inset 0 0 20px rgba(0,0,0,0.8);
       position: relative;
     }
 
-    /* Scrapbook Brass Corner Accents */
-    .lock-card::before,
-    .lock-card::after {
-      content: "";
-      position: absolute;
-      width: 30px;
-      height: 30px;
-      border: 3px solid var(--pink-neon);
-      pointer-events: none;
-    }
-    .lock-card::before { top: 12px; left: 12px; border-right: none; border-bottom: none; }
-    .lock-card::after { bottom: 12px; right: 12px; border-left: none; border-top: none; }
-
     .lock-card h2 {
       font-family: 'UnifrakturMaguntia', serif;
-      font-size: 3.2rem;
+      font-size: 2.8rem;
       color: var(--pink-neon);
-      text-shadow: 0 0 15px var(--pink-glow);
+      text-shadow: 0 0 12px var(--pink-glow), 0 0 25px var(--purple-glow);
       margin-bottom: 2px;
-      letter-spacing: 2px;
+      line-height: 1.1;
+      letter-spacing: 1px;
     }
 
-    .lock-card .sub-title {
-      font-family: 'Caveat', cursive;
-      font-size: 1.5rem;
+    .scrapbook-subtitle {
+      font-family: 'Cinzel', serif;
+      font-size: 0.9rem;
+      color: var(--purple-neon);
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      margin-bottom: 22px;
+      text-shadow: 0 0 8px var(--purple-glow);
+    }
+
+    .lock-card p {
       color: var(--text-muted);
-      margin-bottom: 20px;
+      font-family: 'Special Elite', cursive, sans-serif;
+      font-size: 0.85rem;
+      margin-bottom: 12px;
+      letter-spacing: 1px;
     }
 
     .lock-card input[type="text"] {
       width: 100%;
-      padding: 14px;
-      border-radius: 8px;
-      border: 1px solid rgba(157, 78, 221, 0.4);
-      background: #000;
-      color: #fff;
+      padding: 12px;
+      border-radius: 6px;
+      border: 1px solid var(--border-goth);
+      background: rgba(10, 8, 15, 0.9);
+      color: var(--pink-neon);
+      font-family: 'Special Elite', monospace;
       font-size: 1.1rem;
       text-align: center;
-      margin-bottom: 12px;
+      margin-bottom: 8px;
       outline: none;
-      letter-spacing: 2px;
+      letter-spacing: 3px;
+      box-shadow: inset 0 2px 6px rgba(0,0,0,0.8);
       transition: all 0.3s ease;
     }
 
     .lock-card input:focus {
       border-color: var(--pink-neon);
-      box-shadow: 0 0 12px var(--pink-glow);
+      box-shadow: 0 0 15px var(--pink-glow), inset 0 2px 6px rgba(0,0,0,0.8);
     }
 
     .hint-btn {
       background: none;
       border: none;
-      color: var(--purple-neon);
+      color: var(--text-muted);
+      font-family: 'Special Elite', cursive;
       font-size: 0.8rem;
       text-decoration: underline;
       cursor: pointer;
-      margin-bottom: 16px;
+      margin-bottom: 12px;
       display: inline-block;
+      transition: color 0.2s;
+    }
+
+    .hint-btn:hover {
+      color: var(--pink-neon);
     }
 
     .hint-text {
       display: none;
-      font-size: 0.85rem;
+      font-family: 'Caveat', cursive;
+      font-size: 1.2rem;
       color: var(--pink-neon);
-      margin-bottom: 16px;
-      font-style: italic;
+      margin-bottom: 12px;
+      font-weight: 700;
+      text-shadow: 0 0 8px var(--pink-glow);
     }
 
     .lock-card button.unlock-btn {
       width: 100%;
-      padding: 14px;
+      padding: 12px;
       border-radius: 8px;
-      border: none;
-      background: linear-gradient(135deg, var(--pink-neon), var(--purple-neon));
+      border: 1px solid var(--pink-neon);
+      background: rgba(255, 0, 127, 0.15);
       color: #fff;
       font-family: 'Cinzel', serif;
-      font-size: 1rem;
-      font-weight: 700;
-      letter-spacing: 1px;
+      font-size: 0.95rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
       cursor: pointer;
-      box-shadow: 0 4px 15px var(--purple-glow);
-      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 0 15px var(--pink-glow);
+      transition: all 0.3s;
     }
 
     .lock-card button.unlock-btn:hover {
+      background: var(--pink-neon);
+      box-shadow: 0 0 25px var(--pink-glow);
       transform: translateY(-2px);
-      box-shadow: 0 6px 20px var(--pink-glow);
     }
 
     .error-msg {
       color: #ff4d4d;
+      font-family: 'Special Elite', cursive;
       font-size: 0.85rem;
-      margin-top: 12px;
+      margin-top: 10px;
       display: none;
+      text-shadow: 0 0 8px rgba(255, 77, 77, 0.5);
     }
 
     /* --- Unlock Intro Video Screen --- */
@@ -213,7 +253,6 @@
       justify-content: center;
       align-items: center;
     }
-
     .intro-video-wrapper {
       position: relative;
       width: 100%;
@@ -224,7 +263,6 @@
       justify-content: center;
       align-items: center;
     }
-
     .intro-video-wrapper iframe {
       width: 90%;
       height: 90%;
@@ -232,7 +270,6 @@
       border-radius: 12px;
       box-shadow: 0 0 50px var(--pink-glow);
     }
-
     .skip-intro-btn {
       position: absolute;
       bottom: 30px;
@@ -249,18 +286,15 @@
       transition: all 0.3s;
       z-index: 10002;
     }
-
     .skip-intro-btn:hover {
       background: var(--pink-neon);
       box-shadow: 0 0 20px var(--pink-glow);
     }
-
     /* --- Header & Typography --- */
     .header {
       text-align: center;
       padding: 60px 20px 20px 20px;
     }
-
     .header h1 {
       font-family: 'UnifrakturMaguntia', serif;
       font-size: 4.2rem;
@@ -269,19 +303,16 @@
       letter-spacing: 1px;
       margin-bottom: 8px;
     }
-
     /* --- Search & Controls Section --- */
     .search-container {
       max-width: 500px;
       margin: 30px auto 40px auto;
       padding: 0 20px;
     }
-
     .search-box {
       position: relative;
       width: 100%;
     }
-
     .search-box input {
       width: 100%;
       padding: 14px 20px;
@@ -295,12 +326,10 @@
       box-shadow: 0 4px 20px rgba(0,0,0,0.5);
       transition: all 0.3s ease;
     }
-
     .search-box input:focus {
       border-color: var(--purple-neon);
       box-shadow: 0 0 15px var(--purple-glow);
     }
-
     /* --- Responsive Polaroid Video Grid --- */
     .video-grid {
       display: grid;
@@ -310,7 +339,6 @@
       margin: 0 auto;
       padding: 0 24px;
     }
-
     /* POLAROID CARD STYLING */
     .video-card {
       background: var(--polaroid-bg);
@@ -321,22 +349,17 @@
       position: relative;
       transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
     }
-
-    /* Alternating rotations for scrapbook effect */
     .video-card:nth-child(even) {
       transform: rotate(1.5deg);
     }
     .video-card:nth-child(odd) {
       transform: rotate(-1.5deg);
     }
-
     .video-card:hover {
       transform: translateY(-8px) rotate(0deg) scale(1.03);
       z-index: 10;
       box-shadow: 0 15px 35px var(--pink-glow), 0 5px 15px rgba(0,0,0,0.8);
     }
-
-    /* Scrapbook Washi Tape Detail */
     .video-card::before {
       content: "";
       position: absolute;
@@ -351,17 +374,15 @@
       z-index: 5;
       pointer-events: none;
     }
-
     /* Photo Frame Container */
     .video-container {
       position: relative;
-      padding-bottom: 75%; /* 4:3 Polaroid photo aspect ratio */
+      padding-bottom: 75%;
       height: 0;
       background-color: #111;
       overflow: hidden;
       border: 1px solid rgba(0,0,0,0.15);
     }
-
     .video-thumbnail {
       position: absolute;
       top: 0;
@@ -372,11 +393,10 @@
       filter: contrast(1.05) saturate(1.1);
       transition: transform 0.4s ease, filter 0.4s ease;
     }
-
     .video-card:hover .video-thumbnail {
       transform: scale(1.06);
     }
-
+    /* Standard Overlay Darkening */
     .play-overlay {
       position: absolute;
       top: 0;
@@ -386,37 +406,28 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      background: rgba(0, 0, 0, 0.25);
+      background: transparent;
       transition: background 0.3s;
     }
-
+    /* Completely Transparent Play Icon */
     .play-icon {
-      width: 48px;
-      height: 48px;
-      background: rgba(255, 0, 127, 0.9);
-      border-radius: 50%;
+      width: 52px;
+      height: 52px;
+      background: transparent;
+      border: none;
       display: flex;
       justify-content: center;
       align-items: center;
-      box-shadow: 0 0 15px var(--pink-glow);
-      transition: transform 0.3s ease;
+      box-shadow: none;
+      filter: none;
     }
-
     .play-icon::after {
       content: "";
       width: 0;
       height: 0;
-      border-style: solid;
-      border-width: 7px 0 7px 12px;
-      border-color: transparent transparent transparent #ffffff;
-      margin-left: 3px;
+      border: none;
+      background: transparent;
     }
-
-    .video-card:hover .play-icon {
-      transform: scale(1.15);
-      background: var(--pink-neon);
-    }
-
     /* Polaroid Handwritten Caption Text */
     .video-title {
       padding-top: 14px;
@@ -427,7 +438,6 @@
       text-align: center;
       line-height: 1;
     }
-
     /* --- Day 365 Ending Section --- */
     .ending-section {
       max-width: 500px;
@@ -440,7 +450,6 @@
       text-align: center;
       position: relative;
     }
-
     .ending-section h2 {
       font-family: 'UnifrakturMaguntia', serif;
       font-size: 3.5rem;
@@ -448,14 +457,12 @@
       text-shadow: 0 0 15px var(--pink-glow);
       margin-bottom: 12px;
     }
-
     .ending-section p {
       color: var(--text-main);
       font-size: 1.1rem;
       line-height: 1.7;
       margin: 0 auto 30px auto;
     }
-
     /* --- Full-Screen Video Player Modal --- */
     .modal-overlay {
       position: fixed;
@@ -472,16 +479,14 @@
       align-items: center;
       padding: 20px;
     }
-
     .modal-content {
       width: 100%;
       max-width: 1000px;
       position: relative;
     }
-
     .modal-player-container {
       position: relative;
-      padding-bottom: 56.25%; /* 16:9 */
+      padding-bottom: 56.25%;
       height: 0;
       background: #000;
       border-radius: 12px;
@@ -489,7 +494,6 @@
       border: 1px solid var(--border-goth);
       box-shadow: 0 0 50px var(--purple-glow);
     }
-
     .modal-player-container iframe {
       position: absolute;
       top: 0;
@@ -498,21 +502,18 @@
       height: 100%;
       border: 0;
     }
-
     .modal-controls {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-top: 20px;
     }
-
     .modal-title {
       font-family: 'Cinzel', serif;
       font-size: 1.3rem;
       color: var(--pink-neon);
       text-shadow: 0 0 10px var(--pink-glow);
     }
-
     .nav-btn {
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid var(--border-goth);
@@ -524,13 +525,11 @@
       cursor: pointer;
       transition: all 0.2s;
     }
-
     .nav-btn:hover {
       background: var(--pink-neon);
       color: #fff;
       box-shadow: 0 0 15px var(--pink-glow);
     }
-
     .close-btn {
       position: absolute;
       top: -45px;
@@ -542,12 +541,9 @@
       cursor: pointer;
       transition: color 0.2s;
     }
-
     .close-btn:hover {
       color: var(--pink-neon);
     }
-
-    /* Responsive Adjustments */
     @media (max-width: 768px) {
       .header h1 { font-size: 3rem; }
       .ending-section h2 { font-size: 2.5rem; }
@@ -559,70 +555,50 @@
   </style>
 </head>
 <body>
-
-  <!-- Background Audio Element -->
-  <audio controls loop src="sweet-disposition.flac"></audio>
-
-  <!-- MySpace Style Floating Music Player Widget -->
-  <div class="myspace-player" id="myspacePlayer">
-    <span class="music-icon">♫</span>
-    <span class="track-info">Now Playing: Our Song </span>
-    <button id="toggleMusicBtn" class="music-btn">Pause</button>
-  </div>
-
-  <!-- Ambient Glow Background -->
   <div class="glow-orb orb-1"></div>
   <div class="glow-orb orb-2"></div>
-
-  <!-- Up Scrapbook Password Screen -->
+  
   <div id="lockScreen" class="lock-screen">
     <div class="lock-card">
-      <h2>Litte Pieces of Me</h2>
-      <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 20px;">Enter the passcode to turn the page.</p>
-      <input type="text" id="passcode" placeholder="MM-DD-YYYY" autocomplete="off" maxlength="10" />
-      <div>
-        <button id="toggleHintBtn" class="hint-btn">Need a hint?</button>
-        <div id="hintText" class="hint-text">Format: Page One</div>
+      <div class="scrapbook-badge">
+        <h2>J's videodiary 4 G</h2>
+        <div class="scrapbook-subtitle">For Your Eyes Only</div>
+        <p>Enter the date to open:</p>
+        <input type="text" id="passcode" placeholder="MM-DD-YYYY" autocomplete="off" maxlength="10" />
+        <div>
+          <button id="toggleHintBtn" class="hint-btn">Need a hint?</button>
+          <div id="hintText" class="hint-text">Format: Page One</div>
+        </div>
+        <button id="submitBtn" class="unlock-btn">Open Scrapbook</button>
+        <div id="errorMsg" class="error-msg">Incorrect date. Try again.</div>
       </div>
-      <button id="submitBtn" class="unlock-btn">Unlock Chapter</button>
-      <div id="errorMsg" class="error-msg">Incorrect passcode. Try again.</div>
     </div>
   </div>
 
-  <!-- Intro Video Screen -->
   <div id="introScreen" class="intro-screen">
     <div class="intro-video-wrapper">
       <iframe id="introIframe" src="" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
     </div>
     <button id="skipIntroBtn" class="skip-intro-btn">Skip to Scrapbook &rarr;</button>
   </div>
-
   <div class="content-wrapper">
     <header class="header">
       <h1>Little Pieces of Me</h1>
     </header>
-
-    <!-- Search Section -->
     <div class="search-container">
       <div class="search-box">
         <input type="text" id="searchInput" placeholder=" Search Day (e.g. 181, 250, 365)..." />
       </div>
     </div>
-
-    <!-- Video Cards Grid -->
     <main>
       <div id="video-grid" class="video-grid"></div>
     </main>
-
-    <!-- Dedicated Day 365 Ending Section -->
     <section class="ending-section" id="day365-section">
       <h2>Day 365: The Final Day</h2>
       <p>Final Day to the scrapbook we couldn't make together</p>
       <div id="day365-card-slot"></div>
     </section>
   </div>
-
-  <!-- Fullscreen Modal Player -->
   <div id="videoModal" class="modal-overlay">
     <div class="modal-content">
       <button class="close-btn" id="closeModal">&times;</button>
@@ -636,10 +612,8 @@
       </div>
     </div>
   </div>
-
   <script>
-    const INTRO_VIDEO_ID = "f7xe0PpFEKM"; 
-
+    const INTRO_VIDEO_ID = "f7xe0PpFEKM";
     const lockScreen = document.getElementById("lockScreen");
     const passcodeInput = document.getElementById("passcode");
     const submitBtn = document.getElementById("submitBtn");
@@ -649,8 +623,6 @@
     const introScreen = document.getElementById("introScreen");
     const introIframe = document.getElementById("introIframe");
     const skipIntroBtn = document.getElementById("skipIntroBtn");
-    const bgMusic = document.getElementById("bgMusic");
-    const toggleMusicBtn = document.getElementById("toggleMusicBtn");
 
     passcodeInput.addEventListener("input", (e) => {
       let val = e.target.value.replace(/\D/g, "");
@@ -671,33 +643,11 @@
       if (entered === "10-06-2025" || entered === "10062025") {
         lockScreen.style.display = "none";
         sessionStorage.setItem("siteUnlocked", "true");
-        
-        playBackgroundMusic();
         playIntroVideo();
       } else {
         errorMsg.style.display = "block";
       }
     }
-
-    function playBackgroundMusic() {
-      if (bgMusic) {
-        bgMusic.play().then(() => {
-          toggleMusicBtn.innerText = "Pause";
-        }).catch(err => {
-          console.log("Autoplay blocked or missing audio file:", err);
-        });
-      }
-    }
-
-    toggleMusicBtn.addEventListener("click", () => {
-      if (bgMusic.paused) {
-        bgMusic.play();
-        toggleMusicBtn.innerText = "Pause";
-      } else {
-        bgMusic.pause();
-        toggleMusicBtn.innerText = "Play";
-      }
-    });
 
     function playIntroVideo() {
       if (!INTRO_VIDEO_ID) return closeIntroVideo();
@@ -720,7 +670,6 @@
     });
     skipIntroBtn.addEventListener("click", closeIntroVideo);
 
-    // --- Master Video Data Array ---
     const videos = [
       { day: "Day 181", id: "F8erXiPShxo", thumbnail: "https://i.imgur.com/x1pifAN.png" },
       { day: "Day 182", id: "ae1FYtJpnSA", thumbnail: "https://i.imgur.com/UZ4ecDE.png" },
@@ -852,7 +801,7 @@
       { day: "Day 316", id: "IzYfSVbZaI0", thumbnail: "" },
       { day: "Day 317", id: "IzYfSVbZaI0", thumbnail: "" },
       { day: "Day 318", id: "IzYfSVbZaI0", thumbnail: "" },
-      { day: "Day 365", id: "f7xe0PpFEKM", thumbnail: "" } 
+      { day: "Day 365", id: "f7xe0PpFEKM", thumbnail: "" }
     ];
 
     let currentVideoIndex = 0;
@@ -866,29 +815,23 @@
     const nextBtn = document.getElementById("nextBtn");
     const day365Slot = document.getElementById("day365-card-slot");
 
-    // --- Render Grid Cards ---
     function renderCards(filterText = "") {
       gridContainer.innerHTML = "";
-      
       videos.forEach((video, index) => {
         if (video.day === "Day 365") return;
-
         if (filterText && !video.day.toLowerCase().includes(filterText.toLowerCase())) {
           return;
         }
-
         const card = createCardElement(video, index);
         gridContainer.appendChild(card);
       });
     }
 
-    // --- Card DOM Creation (Polaroid Style) ---
     function createCardElement(video, index) {
       const card = document.createElement("div");
       card.className = "video-card";
-      
-      const thumbnailUrl = video.thumbnail && video.thumbnail.trim() !== "" 
-        ? video.thumbnail 
+      const thumbnailUrl = video.thumbnail && video.thumbnail.trim() !== ""
+        ? video.thumbnail
         : `https://img.youtube.com/vi/${video.id}/hqdefault.jpg`;
 
       card.innerHTML = `
@@ -905,7 +848,6 @@
       return card;
     }
 
-    // --- Special Render for Day 365 ---
     function setupDay365() {
       const day365Index = videos.findIndex(v => v.day === "Day 365");
       if (day365Index !== -1) {
@@ -914,7 +856,6 @@
       }
     }
 
-    // --- Modal Navigation & Player Functions ---
     function openModal(index) {
       currentVideoIndex = index;
       updateModalContent();
@@ -947,12 +888,10 @@
       if (e.target === modal) closeModalPlayer();
     });
 
-    // Search event listener
     searchInput.addEventListener("input", (e) => {
       renderCards(e.target.value);
     });
 
-    // Initialize Page
     document.addEventListener("DOMContentLoaded", () => {
       renderCards();
       setupDay365();
