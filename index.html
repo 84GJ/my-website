@@ -74,7 +74,7 @@
       z-index: 2;
     }
 
-    /* --- Password Overlay Screen --- */
+    /* --- Up Scrapbook x Gothic Password Screen --- */
     .lock-screen {
       position: fixed;
       top: 0;
@@ -90,28 +90,46 @@
     }
 
     .lock-card {
-      background: var(--card-bg);
-      border: 1px solid var(--border-goth);
-      padding: 40px 30px;
-      border-radius: 16px;
+      background: radial-gradient(circle at center, #1c1822 0%, #0d0b10 100%);
+      border: 4px solid #2d2438;
+      outline: 2px solid var(--pink-neon);
+      outline-offset: -8px;
+      padding: 45px 30px;
+      border-radius: 8px;
       text-align: center;
-      box-shadow: 0 0 40px var(--pink-glow), inset 0 0 15px rgba(0,0,0,0.8);
-      max-width: 400px;
+      box-shadow: 0 0 50px rgba(0,0,0,0.9), 0 0 25px var(--pink-glow);
+      max-width: 440px;
       width: 90%;
+      position: relative;
     }
+
+    /* Scrapbook Brass Corner Accents */
+    .lock-card::before,
+    .lock-card::after {
+      content: "";
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      border: 3px solid var(--pink-neon);
+      pointer-events: none;
+    }
+    .lock-card::before { top: 12px; left: 12px; border-right: none; border-bottom: none; }
+    .lock-card::after { bottom: 12px; right: 12px; border-left: none; border-top: none; }
 
     .lock-card h2 {
       font-family: 'UnifrakturMaguntia', serif;
-      font-size: 2.8rem;
+      font-size: 3.2rem;
       color: var(--pink-neon);
-      text-shadow: 0 0 12px var(--pink-glow);
-      margin-bottom: 6px;
+      text-shadow: 0 0 15px var(--pink-glow);
+      margin-bottom: 2px;
+      letter-spacing: 2px;
     }
 
-    .lock-card p {
+    .lock-card .sub-title {
+      font-family: 'Caveat', cursive;
+      font-size: 1.5rem;
       color: var(--text-muted);
-      font-size: 0.9rem;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
     }
 
     .lock-card input[type="text"] {
@@ -179,6 +197,47 @@
       font-size: 0.85rem;
       margin-top: 12px;
       display: none;
+    }
+
+    /* --- MySpace Floating Music Player --- */
+    .myspace-player {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      background: rgba(18, 16, 24, 0.9);
+      border: 1px solid var(--pink-neon);
+      box-shadow: 0 0 15px var(--pink-glow);
+      padding: 8px 16px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 10005;
+      font-size: 0.85rem;
+      backdrop-filter: blur(8px);
+      color: #fff;
+    }
+
+    .music-icon {
+      color: var(--pink-neon);
+      animation: pulse 1.5s infinite alternate;
+    }
+
+    @keyframes pulse {
+      from { opacity: 0.5; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1.1); }
+    }
+
+    .music-btn {
+      background: var(--pink-neon);
+      border: none;
+      color: #fff;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      font-family: 'Cinzel', serif;
+      font-weight: 600;
     }
 
     /* --- Unlock Intro Video Screen --- */
@@ -304,7 +363,7 @@
       transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
     }
 
-    /* Slight alternating rotations for scrapbook effect */
+    /* Alternating rotations for scrapbook effect */
     .video-card:nth-child(even) {
       transform: rotate(1.5deg);
     }
@@ -318,7 +377,7 @@
       box-shadow: 0 15px 35px var(--pink-glow), 0 5px 15px rgba(0,0,0,0.8);
     }
 
-    /* Scrapbook Washi Tape Header Detail */
+    /* Scrapbook Washi Tape Detail */
     .video-card::before {
       content: "";
       position: absolute;
@@ -542,19 +601,30 @@
 </head>
 <body>
 
+  <!-- Background Audio Element -->
+  <audio id="bgMusic" loop src="YOUR_AUDIO_FILE_URL.mp3"></audio>
+
+  <!-- MySpace Style Floating Music Player Widget -->
+  <div class="myspace-player" id="myspacePlayer">
+    <span class="music-icon">♫</span>
+    <span class="track-info">Now Playing: Scrapbook Theme</span>
+    <button id="toggleMusicBtn" class="music-btn">Pause</button>
+  </div>
+
   <!-- Ambient Glow Background -->
   <div class="glow-orb orb-1"></div>
   <div class="glow-orb orb-2"></div>
 
-  <!-- Password Overlay Screen -->
+  <!-- Up Scrapbook Password Screen -->
   <div id="lockScreen" class="lock-screen">
     <div class="lock-card">
-      <h2>Restricted Access</h2>
-      <p>Enter the passcode to enter.</p>
+      <h2>Our Adventure Book</h2>
+      <div class="sub-title">Restricted Chapter</div>
+      <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 20px;">Enter the passcode to turn the page.</p>
       <input type="text" id="passcode" placeholder="MM-DD-YYYY" autocomplete="off" maxlength="10" />
       <div>
         <button id="toggleHintBtn" class="hint-btn">Need a hint?</button>
-        <div id="hintText" class="hint-text">Format: MM-DD-YYYY (e.g. 10-06-2025)</div>
+        <div id="hintText" class="hint-text">Format: Page One</div>
       </div>
       <button id="submitBtn" class="unlock-btn">Unlock Chapter</button>
       <div id="errorMsg" class="error-msg">Incorrect passcode. Try again.</div>
@@ -621,6 +691,8 @@
     const introScreen = document.getElementById("introScreen");
     const introIframe = document.getElementById("introIframe");
     const skipIntroBtn = document.getElementById("skipIntroBtn");
+    const bgMusic = document.getElementById("bgMusic");
+    const toggleMusicBtn = document.getElementById("toggleMusicBtn");
 
     passcodeInput.addEventListener("input", (e) => {
       let val = e.target.value.replace(/\D/g, "");
@@ -641,11 +713,33 @@
       if (entered === "10-06-2025" || entered === "10062025") {
         lockScreen.style.display = "none";
         sessionStorage.setItem("siteUnlocked", "true");
+        
+        playBackgroundMusic();
         playIntroVideo();
       } else {
         errorMsg.style.display = "block";
       }
     }
+
+    function playBackgroundMusic() {
+      if (bgMusic) {
+        bgMusic.play().then(() => {
+          toggleMusicBtn.innerText = "Pause";
+        }).catch(err => {
+          console.log("Autoplay blocked or missing audio file:", err);
+        });
+      }
+    }
+
+    toggleMusicBtn.addEventListener("click", () => {
+      if (bgMusic.paused) {
+        bgMusic.play();
+        toggleMusicBtn.innerText = "Pause";
+      } else {
+        bgMusic.pause();
+        toggleMusicBtn.innerText = "Play";
+      }
+    });
 
     function playIntroVideo() {
       if (!INTRO_VIDEO_ID) return closeIntroVideo();
@@ -669,8 +763,6 @@
     skipIntroBtn.addEventListener("click", closeIntroVideo);
 
     // --- Master Video Data Array ---
-    // You can now specify a custom thumbnail image URL or file path (e.g., thumbnail: "images/day181.jpg").
-    // If left empty or omitted, it defaults to the YouTube thumbnail.
     const videos = [
       { day: "Day 181", id: "F8erXiPShxo", thumbnail: "https://i.imgur.com/x1pifAN.png" },
       { day: "Day 182", id: "ae1FYtJpnSA", thumbnail: "https://i.imgur.com/UZ4ecDE.png" },
@@ -698,14 +790,14 @@
       { day: "Day 209", id: "drwK9SzDIP4", thumbnail: "https://i.imgur.com/5pO7yAJ.png" },
       { day: "Day 210", id: "8ILpkzCGpDE", thumbnail: "https://i.imgur.com/PopVvqI.png" },
       { day: "Day 211", id: "9VlWPHyiLkE", thumbnail: "https://i.imgur.com/Bt3KxII.png" },
-      { day: "Day 212", id: "LJPbmDHMCaM", thumbnail: "https://i.imgur.com/Bt3KxII.png" },
-      { day: "Day 213", id: "f3ikgK0LLZo", thumbnail: "https://i.imgur.com/Bt3KxII.png" },
-      { day: "Day 214", id: "IBS8YP_yK3Q", thumbnail: "https://i.imgur.com/Bt3KxII.png" },
+      { day: "Day 212", id: "LJPbmDHMCaM", thumbnail: "https://i.imgur.com/BKaRODp.png" },
+      { day: "Day 213", id: "f3ikgK0LLZo", thumbnail: "https://i.imgur.com/0zOPOuF.png" },
+      { day: "Day 214", id: "IBS8YP_yK3Q", thumbnail: "https://i.imgur.com/tz81LSI.png" },
       { day: "Day 216", id: "jnUM_oB5lXQ", thumbnail: "https://i.imgur.com/okYuWZO.png" },
       { day: "Day 217", id: "VyexYmGaXUQ", thumbnail: "https://i.imgur.com/TQVJIbk.png" },
       { day: "Day 218", id: "tnJF6tkwl54", thumbnail: "https://i.imgur.com/QRsgybj.png" },
-      { day: "Day 219", id: "WShP3913Nzc", thumbnail: "https://i.imgur.com/cMKWTnT.png" },
-      { day: "Day 220", id: "Q1WBWjKrCeQ", thumbnail: "https://i.imgur.com/OqDsfC6.png" },
+      { day: "Day 219", id: "WShP3913Nzc", thumbnail: "https://i.imgur.com/OqDsfC6.png" },
+      { day: "Day 220", id: "Q1WBWjKrCeQ", thumbnail: "https://i.imgur.com/cMKWTnT.png" },
       { day: "Day 221", id: "rmFOUoS958E", thumbnail: "https://i.imgur.com/fcaRUKr.png" },
       { day: "Day 222", id: "XPdTzet5nt4", thumbnail: "https://i.imgur.com/Xu7jPBq.png" },
       { day: "Day 223", id: "nF-0mtgamaY", thumbnail: "https://i.imgur.com/qIxKiU0.png" },
@@ -727,9 +819,9 @@
       { day: "Day 239", id: "RxpzslfxRN8", thumbnail: "https://i.imgur.com/Y89EYuI.png" },
       { day: "Day 242", id: "LwK3NO7wy0M", thumbnail: "https://i.imgur.com/6x7EGkq.png" },
       { day: "Day 243", id: "nmqCueE_VU0", thumbnail: "https://i.imgur.com/c9fGNqW.png" },
-      { day: "Day 244", id: "WHkEUv5Wefo", thumbnail: "https://i.imgur.com/ObhhgCp.png" },
-      { day: "Day 245", id: "p5OPDNpkmcQ", thumbnail: "https://i.imgur.com/w1maCzE.png" },
-      { day: "Day 246", id: "6NBhaMLjdwM", thumbnail: "https://i.imgur.com/7lUD1Kd.png" },
+      { day: "Day 244", id: "79A9TqZHmsU", thumbnail: "https://i.imgur.com/ObhhgCp.png" },
+      { day: "Day 245", id: "lz2DgqThE-0", thumbnail: "https://i.imgur.com/w1maCzE.png" },
+      { day: "Day 246", id: "XFxr5OdCJaY", thumbnail: "https://i.imgur.com/7lUD1Kd.png" },
       { day: "Day 247", id: "YLbz5vgNiF4", thumbnail: "https://i.imgur.com/tmyWW2c.png" },
       { day: "Day 248", id: "IG2Ih0AkIEw", thumbnail: "https://i.imgur.com/hH5tPCq.png" },
       { day: "Day 249", id: "v-t__8wNNyA", thumbnail: "https://i.imgur.com/lGWVNap.png" },
@@ -764,31 +856,31 @@
       { day: "Day 278", id: "aI7URrr95W0", thumbnail: "" },
       { day: "Day 279", id: "m6QMFpRVPvI", thumbnail: "" },
       { day: "Day 280", id: "9FOOyeG8pjQ", thumbnail: "" },
-      { day: "Day 281", id: "3KwNuAdDe1Q", thumbnail: "" },
+      { day: "Day 281", id: "2I6-RUa9nh8", thumbnail: "" },
       { day: "Day 282", id: "-shuu4RuYNw", thumbnail: "" },
       { day: "Day 283", id: "qrCc-0NfHsM", thumbnail: "" },
       { day: "Day 284", id: "gxayJGTRKnk", thumbnail: "" },
       { day: "Day 285", id: "uWiHhcg5l2s", thumbnail: "" },
-      { day: "Day 286", id: "s_TmYg6uRjs", thumbnail: "" },
-      { day: "Day 287", id: "wkPRd_1vOWI", thumbnail: "" },
-      { day: "Day 288", id: "IOXdl9LaynU", thumbnail: "" },
-      { day: "Day 289", id: "81ahiqK53jc", thumbnail: "" },
-      { day: "Day 290", id: "u75mZudNroI", thumbnail: "" },
-      { day: "Day 291", id: "9rs41Ww_BGI", thumbnail: "" },
-      { day: "Day 292", id: "FHmJU_dLqaE", thumbnail: "" },
-      { day: "Day 293", id: "rhKXF0MpnmM", thumbnail: "" },
-      { day: "Day 294", id: "WnVAcORRSh8", thumbnail: "" },
-      { day: "Day 295", id: "SkqgWZNVnQE", thumbnail: "" },
-      { day: "Day 296", id: "cgL0ZfDBPq0", thumbnail: "" },
-      { day: "Day 297", id: "X83o1RnsxaM", thumbnail: "" },
-      { day: "Day 298", id: "Ar-EyyGRwxs", thumbnail: "" },
-      { day: "Day 299", id: "qmcWXzeIKYo", thumbnail: "" },
-      { day: "Day 300", id: "6ytwvCGdVyM", thumbnail: "" },
-      { day: "Day 301", id: "_7qU8snqHx0", thumbnail: "" },
-      { day: "Day 302", id: "YOKNz4LDlLA", thumbnail: "" },
-      { day: "Day 303", id: "tzgfZUHx7dQ", thumbnail: "" },
-      { day: "Day 304", id: "-6kpAfmxQSA", thumbnail: "" },
-      { day: "Day 305", id: "9hiNS8wH0OU", thumbnail: "" },
+      { day: "Day 286", id: "2FqhRFlwQp0", thumbnail: "" },
+      { day: "Day 287", id: "rCALv4r8kvU", thumbnail: "" },
+      { day: "Day 288", id: "6_DipjNU6T8", thumbnail: "" },
+      { day: "Day 289", id: "D28uFzHZ5b4", thumbnail: "" },
+      { day: "Day 290", id: "nFQjW7nPyOM", thumbnail: "" },
+      { day: "Day 291", id: "GdSe3gihI8M", thumbnail: "" },
+      { day: "Day 292", id: "6BtI3pZldM8", thumbnail: "" },
+      { day: "Day 293", id: "Tc6nPmHZVHU", thumbnail: "" },
+      { day: "Day 294", id: "U2PhCevnpYA", thumbnail: "" },
+      { day: "Day 295", id: "BKyLJFzjpvM", thumbnail: "" },
+      { day: "Day 296", id: "2GTyDF6n5Yw", thumbnail: "" },
+      { day: "Day 297", id: "1GpuEyHbwAs", thumbnail: "" },
+      { day: "Day 298", id: "h6eFhUgc8UE", thumbnail: "" },
+      { day: "Day 299", id: "Ug_cWvGbvHI", thumbnail: "" },
+      { day: "Day 300", id: "5WroJYGOf64", thumbnail: "" },
+      { day: "Day 301", id: "PUwdNRrGQ9Q", thumbnail: "" },
+      { day: "Day 302", id: "I5xfoVIiq5c", thumbnail: "" },
+      { day: "Day 303", id: "1Y_n_TNb1ys", thumbnail: "" },
+      { day: "Day 304", id: "i9C0N21QMOo", thumbnail: "" },
+      { day: "Day 305", id: "rYVFyZZJhH4", thumbnail: "" },
       { day: "Day 306", id: "FVwRNnHwPx4", thumbnail: "" },
       { day: "Day 307", id: "JTKUOc9xI-k", thumbnail: "" },
       { day: "Day 308", id: "akd7dD5TRO8", thumbnail: "" },
@@ -802,8 +894,6 @@
       { day: "Day 316", id: "IzYfSVbZaI0", thumbnail: "" },
       { day: "Day 317", id: "IzYfSVbZaI0", thumbnail: "" },
       { day: "Day 318", id: "IzYfSVbZaI0", thumbnail: "" },
-
-      // Day 365 Grand Finale entry
       { day: "Day 365", id: "f7xe0PpFEKM", thumbnail: "" } 
     ];
 
@@ -839,7 +929,6 @@
       const card = document.createElement("div");
       card.className = "video-card";
       
-      // Fallback logic: Use video.thumbnail if set, otherwise fetch YouTube HQ thumbnail
       const thumbnailUrl = video.thumbnail && video.thumbnail.trim() !== "" 
         ? video.thumbnail 
         : `https://img.youtube.com/vi/${video.id}/hqdefault.jpg`;
