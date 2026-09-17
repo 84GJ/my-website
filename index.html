@@ -199,28 +199,6 @@
       display: none;
     }
 
-    .music-icon {
-      color: var(--pink-neon);
-      animation: pulse 1.5s infinite alternate;
-    }
-
-    @keyframes pulse {
-      from { opacity: 0.5; transform: scale(0.9); }
-      to { opacity: 1; transform: scale(1.1); }
-    }
-
-    .music-btn {
-      background: var(--pink-neon);
-      border: none;
-      color: #fff;
-      padding: 4px 10px;
-      border-radius: 12px;
-      font-size: 0.75rem;
-      cursor: pointer;
-      font-family: 'Cinzel', serif;
-      font-weight: 600;
-    }
-
     /* --- Unlock Intro Video Screen --- */
     .intro-screen {
       position: fixed;
@@ -399,7 +377,7 @@
       transform: scale(1.06);
     }
 
-   .play-overlay {
+    .play-overlay {
       position: absolute;
       top: 0;
       left: 0;
@@ -408,10 +386,9 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      background: transparent;
-      transition: opacity 0.3s ease;
-      opacity: 0;
-      }
+      background: rgba(0, 0, 0, 0.25);
+      transition: background 0.3s;
+    }
 
     .play-icon {
       width: 48px;
@@ -582,6 +559,16 @@
   </style>
 </head>
 <body>
+
+  <!-- Background Audio Element -->
+  <audio controls loop src="sweet-disposition.flac"></audio>
+
+  <!-- MySpace Style Floating Music Player Widget -->
+  <div class="myspace-player" id="myspacePlayer">
+    <span class="music-icon">♫</span>
+    <span class="track-info">Now Playing: Our Song </span>
+    <button id="toggleMusicBtn" class="music-btn">Pause</button>
+  </div>
 
   <!-- Ambient Glow Background -->
   <div class="glow-orb orb-1"></div>
