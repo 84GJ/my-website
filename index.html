@@ -601,15 +601,21 @@
 </head>
 <body>
 
-<!-- Native Audio Player (Works locally without API tokens or passwords) -->
-<audio controls loop src="sweet-disposition.mp3"></audio>
-
-  <!-- MySpace Style Floating Music Player Widget -->
-  <div class="myspace-player" id="myspacePlayer">
-    <span class="music-icon">♫</span>
-    <span class="track-info">Now Playing: Our Song </span>
-    <button id="toggleMusicBtn" class="music-btn">Pause</button>
-  </div>
+<div class="myspace-player" id="myspacePlayer">
+  <span class="music-icon">♫</span>
+  <span class="track-info">Now Playing: Sweet Disposition - The Temper Trap</span>
+  
+  <!-- YouTube Embedded Player -->
+  <iframe 
+    width="300" 
+    height="80" 
+    src="https://www.youtube.com/watch?v=vN7HQrgakZU" 
+    title="Our Song" 
+    frameborder="0" 
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+    allowfullscreen>
+  </iframe>
+</div>
 
   <!-- Ambient Glow Background -->
   <div class="glow-orb orb-1"></div>
