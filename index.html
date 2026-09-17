@@ -199,25 +199,6 @@
       display: none;
     }
 
-    /* --- MySpace Floating Music Player --- */
-    .myspace-player {
-      position: fixed;
-      bottom: 20px;
-      left: 20px;
-      background: rgba(18, 16, 24, 0.9);
-      border: 1px solid var(--pink-neon);
-      box-shadow: 0 0 15px var(--pink-glow);
-      padding: 8px 16px;
-      border-radius: 20px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      z-index: 10005;
-      font-size: 0.85rem;
-      backdrop-filter: blur(8px);
-      color: #fff;
-    }
-
     .music-icon {
       color: var(--pink-neon);
       animation: pulse 1.5s infinite alternate;
@@ -418,7 +399,7 @@
       transform: scale(1.06);
     }
 
-    .play-overlay {
+   .play-overlay {
       position: absolute;
       top: 0;
       left: 0;
@@ -427,9 +408,10 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      background: rgba(0, 0, 0, 0.25);
-      transition: background 0.3s;
-    }
+      background: transparent;
+      transition: opacity 0.3s ease;
+      opacity: 0;
+      }
 
     .play-icon {
       width: 48px;
@@ -600,22 +582,6 @@
   </style>
 </head>
 <body>
-
-<div class="myspace-player" id="myspacePlayer">
-  <span class="music-icon">♫</span>
-  <span class="track-info">Now Playing: Sweet Disposition - The Temper Trap</span>
-  
-  <!-- YouTube Embedded Player -->
-  <iframe 
-    width="300" 
-    height="80" 
-    src="https://www.youtube.com/watch?v=vN7HQrgakZU" 
-    title="Our Song" 
-    frameborder="0" 
-    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-    allowfullscreen>
-  </iframe>
-</div>
 
   <!-- Ambient Glow Background -->
   <div class="glow-orb orb-1"></div>
