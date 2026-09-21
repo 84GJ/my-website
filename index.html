@@ -438,7 +438,7 @@
       text-align: center;
       line-height: 1;
     }
-    /* --- Day 365 Ending Section --- */
+    /* --- Day 350 Ending Section --- */
     .ending-section {
       max-width: 500px;
       margin: 80px auto 40px auto;
@@ -587,16 +587,16 @@
     </header>
     <div class="search-container">
       <div class="search-box">
-        <input type="text" id="searchInput" placeholder=" Search Day (e.g. 181, 250, 365)..." />
+        <input type="text" id="searchInput" placeholder=" Search Day (e.g. 181, 250, 350)..." />
       </div>
     </div>
     <main>
       <div id="video-grid" class="video-grid"></div>
     </main>
-    <section class="ending-section" id="day365-section">
-      <h2>Day 365: The Final Day</h2>
+    <section class="ending-section" id="day350-section">
+      <h2>Day 350: The Final Video</h2>
       <p>Final Day to the scrapbook we couldn't make together</p>
-      <div id="day365-card-slot"></div>
+      <div id="day350-card-slot"></div>
     </section>
   </div>
   <div id="videoModal" class="modal-overlay">
@@ -652,7 +652,7 @@
     function playIntroVideo() {
       if (!INTRO_VIDEO_ID) return closeIntroVideo();
       introScreen.style.display = "flex";
-      introIframe.src = `https://www.youtube-nocookie.com/embed/${INTRO_VIDEO_ID}?autoplay=1&rel=0&playsinline=1`;
+      introIframe.src = `https://www.youtube-nocookie.com/embed/${Xi4gd2Cjrh8}?autoplay=1&rel=0&playsinline=1`;
     }
 
     function closeIntroVideo() {
@@ -823,31 +823,16 @@
       { day: "Day 338", id: "77rTBbzx8ZY", thumbnail: "" },
       { day: "Day 339", id: "fm-yA8Vm-8Q", thumbnail: "" },
       { day: "Day 340", id: "Qb5uKZVrdCg", thumbnail: "" },
-      { day: "Day 341", id: "IzYfSVbZaI0", thumbnail: "" },
-      { day: "Day 342", id: "IzYfSVbZaI0", thumbnail: "" },
-      { day: "Day 343", id: "IzYfSVbZaI0", thumbnail: "" },
-      { day: "Day 344", id: "IzYfSVbZaI0", thumbnail: "" },
-      { day: "Day 345", id: "IzYfSVbZaI0", thumbnail: "" },
-      { day: "Day 346", id: "IzYfSVbZaI0", thumbnail: "" },
-      { day: "Day 347", id: "IzYfSVbZaI0", thumbnail: "" },
-      { day: "Day 348", id: "IzYfSVbZaI0", thumbnail: "" },
-      { day: "Day 349", id: "IzYfSVbZaI0", thumbnail: "" },
-      { day: "Day 350", id: "IzYfSVbZaI0", thumbnail: "" },
-      { day: "Day 351", id: "IzYfSVbZaI0", thumbnail: "" },
-      { day: "Day 352", id: "IzYfSVbZaI0", thumbnail: "" },
-      { day: "Day 353", id: "IzYfSVbZaI0", thumbnail: "" },
-      { day: "Day 354", id: "IzYfSVbZaI0", thumbnail: "" },
-      { day: "Day 355", id: "IzYfSVbZaI0", thumbnail: "" },
-      { day: "Day 356", id: "IzYfSVbZaI0", thumbnail: "" },
-      { day: "Day 357", id: "IzYfSVbZaI0", thumbnail: "" },
-      { day: "Day 358", id: "IzYfSVbZaI0", thumbnail: "" },
-      { day: "Day 359", id: "IzYfSVbZaI0", thumbnail: "" },
-      { day: "Day 360", id: "IzYfSVbZaI0", thumbnail: "" },
-      { day: "Day 361", id: "IzYfSVbZaI0", thumbnail: "" },
-      { day: "Day 362", id: "IzYfSVbZaI0", thumbnail: "" },
-      { day: "Day 363", id: "IzYfSVbZaI0", thumbnail: "" },
-      { day: "Day 364", id: "IzYfSVbZaI0", thumbnail: "" },
-      { day: "Day 365", id: "f7xe0PpFEKM", thumbnail: "" }
+      { day: "Day 341", id: "PN2QwcxkpLU", thumbnail: "" },
+      { day: "Day 342", id: "---uYeF12KU", thumbnail: "" },
+      { day: "Day 343", id: "qQ0XXeOVp2Y", thumbnail: "" },
+      { day: "Day 344", id: "HSA8eL3NZDY", thumbnail: "" },
+      { day: "Day 345", id: "K0tYP0abxsA", thumbnail: "" },
+      { day: "Day 346", id: "Kgxy5QCSJ9M", thumbnail: "" },
+      { day: "Day 347", id: "kzzrePw6VqU", thumbnail: "" },
+      { day: "Day 348", id: "0v0CUpPRc3M", thumbnail: "" },
+      { day: "Day 349", id: "R19LOTYzfX8", thumbnail: "" },
+      { day: "Day 350", id: "-6CRZCTq9YQ", thumbnail: "" }
     ];
 
     let currentVideoIndex = 0;
@@ -859,12 +844,12 @@
     const closeModal = document.getElementById("closeModal");
     const prevBtn = document.getElementById("prevBtn");
     const nextBtn = document.getElementById("nextBtn");
-    const day365Slot = document.getElementById("day365-card-slot");
+    const day350Slot = document.getElementById("day350-card-slot");
 
     function renderCards(filterText = "") {
       gridContainer.innerHTML = "";
       videos.forEach((video, index) => {
-        if (video.day === "Day 365") return;
+        if (video.day === "Day 350") return;
         if (filterText && !video.day.toLowerCase().includes(filterText.toLowerCase())) {
           return;
         }
@@ -894,11 +879,11 @@
       return card;
     }
 
-    function setupDay365() {
-      const day365Index = videos.findIndex(v => v.day === "Day 365");
-      if (day365Index !== -1) {
-        const card = createCardElement(videos[day365Index], day365Index);
-        day365Slot.appendChild(card);
+    function setupDay350() {
+      const day350Index = videos.findIndex(v => v.day === "Day 350");
+      if (day350Index !== -1) {
+        const card = createCardElement(videos[day350Index], day350Index);
+        day350Slot.appendChild(card);
       }
     }
 
@@ -940,7 +925,7 @@
 
     document.addEventListener("DOMContentLoaded", () => {
       renderCards();
-      setupDay365();
+      setupDay350();
     });
   </script>
 </body>
