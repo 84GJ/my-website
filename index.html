@@ -652,7 +652,7 @@
     function playIntroVideo() {
       if (!INTRO_VIDEO_ID) return closeIntroVideo();
       introScreen.style.display = "flex";
-      introIframe.src = `https://www.youtube-nocookie.com/embed/${video.id}?autoplay=1&rel=0&playsinline=1`;
+      introIframe.src = `https://www.youtube-nocookie.com/embed/${INTRO_VIDEO_ID}?autoplay=1&rel=0&playsinline=1`;
     }
 
     function closeIntroVideo() {
